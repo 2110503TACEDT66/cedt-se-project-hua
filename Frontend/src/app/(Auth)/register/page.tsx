@@ -31,7 +31,7 @@ export default async function RegisterPage() {
     }
 
     return (
-        <body className="flex justify-center items-center h-screen bg-indigo-600 bg-[url('/Images/bg.png')] bg-cover bg-center bg-no-repeat">
+        <body className="flex justify-center items-center h-scree bg-cover bg-center bg-no-repeat">
         <form action={RegisterUser} className="bg-white/30 backdrop-blur-sm rounded-lg my-5 py-3 w-[20%] text-center h-[60%] absolute top-5">
             <div className="text-5xl text-center text-white font-bold">Register</div>
             <div className="flex justify-center items-center w-full  my-7">

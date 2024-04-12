@@ -7,12 +7,16 @@ import LinearProgress from '@mui/material/LinearProgress'
 export default function Home() {
   const hotel = getHotels()
   return (
-    <main className="bg-[url('/Images/bg.png')] bg-cover bg-center bg-no-repeat">
+    <main className="flex flex-col">
       <Banner/>
-      <h1 className="flex items-center justify-center text-3xl font-medium text-pink-200">Hotels</h1>
-      <Suspense fallback = {<h3 className="text-red-400">Loading...<LinearProgress /></h3>}>
-          <HotelCatalog hotelJson={hotel} />
-      </Suspense>
+      <h1 className="flex items-center justify-center text-3xl font-bold text-black mt-10">
+        Hotels
+      </h1>
+      <div>
+        <Suspense fallback = {<h3 className="text-red-400">Loading...<LinearProgress /></h3>}>
+            <HotelCatalog hotelJson={hotel} />
+        </Suspense>
+      </div>
     </main>
   )
 }

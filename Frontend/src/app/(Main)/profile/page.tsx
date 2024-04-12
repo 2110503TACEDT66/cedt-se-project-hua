@@ -39,7 +39,7 @@ export default async function Profile() {
     }
 
     return (
-        <main className="fixed left-0 top-0 w-full h-full flex flex-col items-center justify-center bg-black bg-opacity-40 bg-[url('/Images/bg.png')] bg-cover bg-center bg-no-repeat">
+        <main className="fixed left-0 top-0 w-full h-full flex flex-col items-center justify-center bg-black bg-opacity-40 bg-cover bg-center bg-no-repeat">
             <div className="bg-white/30 backdrop-blur-md rounded-lg p-8 w-[25em] text-black">
                 <div className="text-3xl font-bold text-white">Name : {profile.data.name}</div>
                 <table className="table-auto border-seperate border-spacing-2">
