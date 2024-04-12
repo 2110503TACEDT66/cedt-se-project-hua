@@ -9,18 +9,20 @@ export default async function HotelDetailPage({params}:{params:{hid:string}}){
 
     return(
         <main className="bg-[url('/Images/bg.png')] bg-cover bg-center bg-no-repeat">
-            <div className="text-white flex flex-row mt-5">
-                <div className="flex  mt-7 ml-40"><Image src={hotelDetail.data.picture}
-                alt="Hotel"
+            
+            <div className="text-white flex flex-row justify-center align-middle p-10 gap-5">
+                <div className="">
+                <Image src={hotelDetail.data.picture}
+                alt="Hotel picture"
                 width={0}
                 height={0}
                 sizes="400vw"
                 className="rounded-lg w-80 h-40 text-sky-400" />
                 </div>
-                <div className="mt-7 ml-10">
-                    <div className="text-bold text-white text-xl">{hotelDetail.data.name} </div>
-                    <div className="text-bold text-white text-xl"> address : {hotelDetail.data.address}</div>
-                    <div className="text-bold text-white text-xl"> tel : {hotelDetail.data.tel}</div>
+                <div className="flex flex-col justify-center text-bold text-white text-2xl">
+                    <div className="">{hotelDetail.data.name} </div>
+                    <div className=""> address : {hotelDetail.data.address}</div>
+                    <div className=""> tel : {hotelDetail.data.tel}</div>
                 </div>
             </div>
             <div className="flex flex-row">
