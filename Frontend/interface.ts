@@ -87,3 +87,12 @@ interface BookingData {
     bDate: string,
     bEnd: string
 }
+
+interface UserPayload {
+    name: string,
+    email: string,
+    tel: string,
+    password: string,
+    role: string,
+    hid: string
+}
