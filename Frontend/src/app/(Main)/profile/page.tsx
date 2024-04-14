@@ -5,6 +5,7 @@ import InputCompo from "@/components/InputCompo";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation"
 import addHotelDB from "@/libs/addHotelDB";
+import Link from "next/link";
 
 export default async function Profile() {
     const session = await getServerSession(authOptions)
@@ -49,6 +50,12 @@ export default async function Profile() {
                         <tr><td>Role </td><td>: {profile.data.role}</td></tr>
                     </tbody>
                 </table>
+                {
+                (profile.data.role === 'admin') ? 
+                <Link href="/registerhoteladmin">
+                <button>Add Hotel Admin</button>
+                </Link> : null
+                }
             </div>
             {
                 (profile.data.role === 'admin') ? 
