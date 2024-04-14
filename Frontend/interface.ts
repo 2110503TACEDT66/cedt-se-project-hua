@@ -34,7 +34,10 @@ interface BookingItem {
     _id: string,
     bookingDate: string,
     bookingEnd: string,
-    user: string,
+    user: {
+        _id: string,
+        name: string
+    },
     hotel: {
         _id: string,
         name: string,
