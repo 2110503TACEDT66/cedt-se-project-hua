@@ -15,7 +15,8 @@ export default function Card({hotelName,imgSrc}:{hotelName:string,imgSrc:string}
                 <Image src={imgSrc}
                 alt='Hotel Picture'
                 fill={true}
-                className='object-cover rounded-t-lg'/>
+                className='object-cover rounded-t-lg'
+                sizes="100vh"/>
             </div>
             <div className='w-full h-[15%] p-[10px]'>
                 {hotelName}
