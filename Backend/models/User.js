@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'admin', 'hotelAdmin'],
         default: 'user'
     },
     password: {
@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    hid: {
+        type: String,
+        default: null
     }
 
 });

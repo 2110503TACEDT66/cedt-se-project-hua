@@ -4,6 +4,6 @@ const bookingRouter=require('./bookings');
 const router=express.Router({mergeParams:true});
 const{protect,authorize}=require('../middleware/auth');
 router.use('/:roomId/bookings/',bookingRouter);
-router.route('/').get(getRooms).post(protect,authorize('admin'),addRoom);
-router.route('/:id').get(protect,getRoom).put(protect,authorize('admin'),updateRoom).delete(protect,authorize('admin'),deleteRoom);
+router.route('/').get(getRooms).post(protect,authorize('admin','hotelAdmin'),addRoom);
+router.route('/:id').get(protect,getRoom).put(protect,authorize('admin','hotelAdmin'),updateRoom).delete(protect,authorize('admin','hotelAdmin'),deleteRoom);
 module.exports=router;
