@@ -7,11 +7,12 @@ import { AppDispatch } from "@/redux/store";
 import { updateBookingDB, updateBookingLocal } from "@/redux/features/bookSlice";
 import { useSession } from "next-auth/react";
 
-export default function EditBooking({closeEdit, bid, hotel, room} : {closeEdit: Function, bid: string, hotel: string, room: string}) {
+export default function EditBooking({closeEdit, bid, hotel, room, baseBookingDate, baseBookingEnd} : 
+    {closeEdit: Function, bid: string, hotel: string, room: string, baseBookingDate: Dayjs, baseBookingEnd: Dayjs}) {
     const { data : session } = useSession();
 
-    const [bookingDate, setBookingDate] = useState<Dayjs | null>(dayjs(null))
-    const [checkoutDate, setCheckoutDate] = useState<Dayjs | null>(dayjs(null))
+    const [bookingDate, setBookingDate] = useState<Dayjs>(baseBookingDate)
+    const [checkoutDate, setCheckoutDate] = useState<Dayjs>(baseBookingEnd)
 
     const dispatch = useDispatch<AppDispatch>()
 
