@@ -1,7 +1,7 @@
 import Card from "./Card";
 import Link from "next/link";
 
-export default async function HotelCatalog({hotelJson}:{hotelJson:Promise<HotelJson>}){
+export default async function HotelCatalog({hotelJson, search}:{hotelJson:Promise<HotelJson>, search?:String}){
     const hotelJsonReady = await hotelJson
     
     return(

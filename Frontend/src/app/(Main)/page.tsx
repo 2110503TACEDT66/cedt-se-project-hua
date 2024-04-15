@@ -1,10 +1,12 @@
+'use client'
 import Banner from '@/components/Banner'
 import HotelCatalog from '@/components/HotelCatalog'
 import getHotels from '@/libs/getHotels'
 import { Suspense } from 'react'
 import LinearProgress from '@mui/material/LinearProgress'
-
+import { useState } from 'react'
 export default function Home() {
+  const [search, setSearch] = useState('');
   const hotel = getHotels()
   return (
     <main className="flex flex-col">
@@ -13,8 +15,9 @@ export default function Home() {
         Hotels
       </h1>
       <div>
+        <input type="text" placeholder='Searching...' />
         <Suspense fallback = {<h3 className="text-red-400">Loading...<LinearProgress /></h3>}>
-            <HotelCatalog hotelJson={hotel} />
+            <HotelCatalog hotelJson={hotel} search={search}/>
         </Suspense>
       </div>
     </main>
