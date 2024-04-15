@@ -4,10 +4,19 @@ import HotelCatalog from '@/components/HotelCatalog'
 import getHotels from '@/libs/getHotels'
 import { Suspense } from 'react'
 import LinearProgress from '@mui/material/LinearProgress'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 export default function Home() {
+
+  const inputRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useState('');
   const hotel = getHotels()
+  // handle search function
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(inputRef.current)
+    setSearch(inputRef.current.value);
+  };
+
   return (
     <main className="flex flex-col">
       <Banner/>
@@ -15,7 +24,10 @@ export default function Home() {
         Hotels
       </h1>
       <div>
-        <input type="search" placeholder='Searching...' onChange={(e)=>{setSearch(e.target.value)}}/>
+        <form className="" onSubmit={(e)=>{handleSearch(e)}}>
+          <input ref={inputRef} type="search" placeholder='Searching...' max={100}/>
+          <button type='submit' className='bg-purple-400 text-white' > Search </button>
+        </form>
         <Suspense fallback = {<h3 className="text-red-400">Loading...<LinearProgress /></h3>}>
             <HotelCatalog hotelJson={hotel} search={search}/>
         </Suspense>
