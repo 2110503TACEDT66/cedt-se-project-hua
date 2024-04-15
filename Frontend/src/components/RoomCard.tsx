@@ -21,7 +21,7 @@ export default function RoomCard({RoomItem}:{RoomItem:RoomItem}){
                         <div className="">Price : {RoomItem.price}</div>
                     </div>
                     <Link href={`/booking/${RoomItem.hotel._id}/${RoomItem._id}`}>
-                        <button className="absolute bottom-2 right-2 rounded-xl p-2 bg-cyan-600 transition duration-100 hover:scale-105">Booking</button>
+                        <button className="absolute bottom-2 right-2 rounded-xl py-2 px-3 text-white font-medium bg-purple-400 transition duration-100 hover:scale-105">Booking</button>
                     </Link>
                 </div>
             </div>

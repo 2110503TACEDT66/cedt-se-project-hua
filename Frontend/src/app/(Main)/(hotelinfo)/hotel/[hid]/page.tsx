@@ -9,20 +9,17 @@ export default async function HotelDetailPage({params}:{params:{hid:string}}){
 
     return(
         <main className="bg-cover bg-center bg-no-repeat">
-            
-            <div className="text-white flex flex-row justify-center align-middle p-10 gap-5">
-                <div className="">
-                <Image src={hotelDetail.data.picture}
-                alt="Hotel picture"
-                width={0}
-                height={0}
-                sizes="400vw"
-                className="rounded-lg w-80 h-40 text-sky-400" />
-                </div>
-                <div className="flex flex-col justify-center text-bold text-white text-2xl">
-                    <div className="">{hotelDetail.data.name} </div>
-                    <div className=""> address : {hotelDetail.data.address}</div>
-                    <div className=""> tel : {hotelDetail.data.tel}</div>
+            <div className="text-white flex justify-center align-middle w-[100vw] p-3 h-96 ">
+                <div className="flex flex-row gap-4 shadow-lg shadow-purple-300 p-5 rounded-xl">
+                    <img src={hotelDetail.data.picture}
+                    alt="Hotel picture"
+                    className="rounded-lg object-cover" 
+                    />
+                    <div className="flex flex-col justify-center text-bold text-black text-2xl ">
+                        <p className="">{hotelDetail.data.name} </p>
+                        <p className=""> Address : {hotelDetail.data.address}</p>
+                        <p className=""> Tel : {hotelDetail.data.tel}</p>
+                    </div>
                 </div>
             </div>
             <div className="flex flex-row">
