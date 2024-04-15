@@ -3,11 +3,19 @@
 import DataReserve from "./DateReserve"
 import { useState } from "react"
 import dayjs, {Dayjs} from "dayjs";
+import customParseFormat from 'dayjs/plugin/customParseFormat'; // Import the plugin for custom date parsing
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'; // Import the plugin for isSameOrAfter
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'; // Import the plugin for isSameOrBefore
 import React from "react";
 import { useSession } from "next-auth/react";
 import addBooking from "@/libs/addBooking";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import getBookings from "@/libs/getBooking";
+
+dayjs.extend(customParseFormat); // Extend dayjs with the customParseFormat plugin
+dayjs.extend(isSameOrAfter); // Extend dayjs with the isSameOrAfter plugin
+dayjs.extend(isSameOrBefore); // Extend dayjs with the isSameOrBefore plugin
 
 export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid: string}) {
     const { data: session } = useSession();
@@ -35,6 +43,57 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
         }
     }
 
+    const CheckRoom = async (checkIn: Dayjs, checkOut: Dayjs) => {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTJlMWE3ZWZhNjY0OTY1YTI3ZWFmZiIsImlhdCI6MTcxMzEyNjE5NiwiZXhwIjoxNzE1NzE4MTk2fQ.ZVMFRcku1ECDs7KmeIQ9B91i6HwJ7nRyZ5u3AMS8f_o";
+        const bookingJson = await getBookings(token);
+        
+        // Check if bookingJson has data and data is an array
+        if (!bookingJson || !Array.isArray(bookingJson.data)) {
+            console.error("Invalid booking data format");
+            return;
+        }
+    
+        const bookings = bookingJson.data;
+
+
+
+    const bookingsWithSameRoomId: BookingItem[] = [];
+
+    for (const booking of bookings) {
+        if (booking.room._id === roomid) {
+            bookingsWithSameRoomId.push(booking);
+        }
+    }
+    
+        // Loop through the bookings array
+        for (const booking of bookingsWithSameRoomId) {
+            const bookingCheckIn = dayjs(booking.bookingDate);
+            const bookingCheckOut = dayjs(booking.bookingEnd);
+    
+            // Check for overlap
+            if (
+                (checkIn.isSameOrAfter(bookingCheckIn) && checkIn.isBefore(bookingCheckOut)) ||
+                (checkOut.isAfter(bookingCheckIn) && checkOut.isSameOrBefore(bookingCheckOut)) ||
+                (checkIn.isBefore(bookingCheckIn) && checkOut.isAfter(bookingCheckOut))
+            ) {
+                console.log("Booking overlaps with existing booking:", booking);
+                return true; // Overlap found
+            }
+        }
+    
+        console.log("No overlap found");
+        return false; // No overlap found
+    };
+
+    const checkAvailability = () => {
+        if (!checkInDate || !checkOutdate) {
+            console.error("Please select check-in and check-out dates");
+            return;
+        }
+
+        CheckRoom(checkInDate, checkOutdate);
+    };
+
     return (
         <div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
             <div className="my-10 flex flex-col">
@@ -45,6 +104,8 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
             </div>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500"
             onClick={handleSubmit}>Booking</button>
+            <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500"
+            onClick={checkAvailability}>check</button>
         </div>
     
     )
