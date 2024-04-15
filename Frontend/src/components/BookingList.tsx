@@ -4,10 +4,10 @@ import { AppDispatch, useAppSelector } from "@/redux/store"
 import EditBooking from "./EditBooking"
 import dayjs from 'dayjs'
 import { useSession } from "next-auth/react"
-import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Rating,Stack } from "@mui/material"
 import { useReducer } from "react"
+import { useState } from "react"
 
 export default function BookingList() {
     const { data: session } = useSession();
@@ -17,34 +17,9 @@ export default function BookingList() {
 
     const [editState, setEditState] = useState('not')
 
-    // const [value, setValue] = useState<number | null>(5);
+    const [value, setValue] = useState<number | null>(5);
 
-    // const showRatingReducer = (ratingList: Map<string, number>,action: { type: string, hotelName: string, rating: number }) => {
-    //     switch (action.type) {
-    //         case "add":
-    //             ratingList.set(action.hotelName, action.rating)
-    //             return new Map(ratingList);
-    //         case "remove":
-    //             ratingList.delete(action.hotelName);
-    //             return new Map(ratingList);
-    //         default:
-    //             return ratingList;
-    //     }
-    // }
-
-    // const [ratingList, dispatchRating] = useReducer(showRatingReducer);
-
-    // const handleChangeRating = (hospitalName: string) => {
-    //     return (newRating:number | null) => {
-    //         if (newRating === null) {
-    //             dispatchRating({ type: "remove", hospitalName, rating: 0})
-    //         }
-    //         else {
-    //             dispatchRating({ type: 'add', hospitalName, rating: newRating });
-    //         }
-    //     }
-    // } 
-
+         
     return (
         <div className="pt-1 pl-3 pr-3">
             {
@@ -66,13 +41,12 @@ export default function BookingList() {
                         </div>
                         <Stack spacing={2} className='mx-2'>
                                 <Rating
-                                    // id={`${hospitalName} Rating`}
-                                    // name={`${hospitalName} Rating`}
-                                    // value={value}
-                                    // onChange={(event, newValue) => {
-                                    //     setValue(newValue);
-                                    //     onRating(newValue);
-                                    // }}
+                                    id={`${bookingItem.hotel.name} Rating`}
+                                    name={`${bookingItem.hotel.name} Rating`}
+                                    value={value}
+                                    onChange={(event, newValue) => {
+                                        setValue(newValue);
+                                    }}
                                 />
                         </Stack>
                         {
