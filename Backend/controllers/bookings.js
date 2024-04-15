@@ -4,7 +4,10 @@ const Room = require('../models/Room');
 
 exports.getBookings = async (req,res,next)=>{
     let query;
-    if (req.user.role !== 'admin'){
+    if (req.user.role === 'hotelAdmin') {
+        query = populateQuery(Booking.find({hotel:req.user.hid}));
+    }
+    else if (req.user.role !== 'admin'){
         query = populateQuery(Booking.find({user:req.user.id}));
     } else if (req.params.hotelId) {
         console.log(req.params.hotelId);
@@ -128,6 +131,10 @@ const populateQuery = (baseQuery) => {
             path: 'room',
             select: 'roomNo roomType',
         },
+        {
+            path: 'user',
+            select: 'name'
+        }
     ]);
 
     return query;
