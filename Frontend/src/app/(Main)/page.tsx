@@ -15,7 +15,7 @@ export default function Home() {
         Hotels
       </h1>
       <div>
-        <input type="text" placeholder='Searching...' />
+        <input type="search" placeholder='Searching...' onChange={(e)=>{setSearch(e.target.value)}}/>
         <Suspense fallback = {<h3 className="text-red-400">Loading...<LinearProgress /></h3>}>
             <HotelCatalog hotelJson={hotel} search={search}/>
         </Suspense>
