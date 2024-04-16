@@ -21,6 +21,11 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
     const { data: session } = useSession();
     const [checkInDate,setCheckInDate] = useState<Dayjs | null>(null)
     const [checkOutdate,setCheckOutDate] = useState<Dayjs | null>(null)
+    const [isBooked, setIsBooked] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
     const router = useRouter();
 
     const handleSubmit = async () => {
@@ -82,17 +87,19 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
         return false;
     };
 
-    const checkAvailability = () => {
+    const checkAvailability = async () => {
         if (!checkInDate || !checkOutdate) {
             console.error("Please select check-in and check-out dates");
             return;
         }
 
-        CheckRoom(checkInDate, checkOutdate);
+        if(await CheckRoom(checkInDate, checkOutdate)){
+            setIsBooked(true);
+        }
     };
 
     return (
-        <div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
+        (!isOpen)?(<div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
             <div className="my-10 flex flex-col">
                 <div>Check-In</div>
                 <DataReserve onDateChange={(value:Dayjs)=> setCheckInDate(value)} value={null} name="checkIn"/>
@@ -100,10 +107,43 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
                 <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} name="checkOut"/>
             </div>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500"
-            onClick={handleSubmit}>Booking</button>
+            onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500"
-            onClick={checkAvailability}>check</button>
-        </div>
+            onClick={() => {checkAvailability();togglePopup();}}>check</button>
+            
+        </div>):( <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+          <div className="bg-white rounded shadow-lg w-1/2">
+            <div className="px-4 py-2 flex justify-between items-center bg-blue-500 text-white rounded-t">
+              <h2 className="text-lg font-semibold">Popup Title</h2>
+              <button onClick={() => {togglePopup(); }} className="text-white">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-4 text-black">
+            {(isBooked || (!checkInDate && !checkOutdate)) ? <div>
+                <p>Room is not available</p>
+                <div className="mt-4 flex justify-end">
+                <button onClick={() => {togglePopup(); window.location.reload() }} className="bg-blue-500 hover:bg-blue-700 text-white m-auto font-bold py-2 px-4 rounded">
+                  Close
+                </button>
+                </div>
+              </div> : <div>
+                <p>Confirm Booking</p>
+                <div className="mt-4 flex justify-end">
+                <button onClick={() => {togglePopup(); window.location.reload() }} className="bg-blue-500 hover:bg-blue-700 text-white m-auto font-bold py-2 px-4 rounded">
+                  Back
+                </button>
+                <button onClick={() => {togglePopup();handleSubmit();}} className="bg-blue-500 hover:bg-blue-700 text-white m-auto font-bold py-2 px-4 rounded">
+                  Confirm
+                </button>
+                </div>
+              </div>}
+              
+            </div>
+          </div>
+        </div>)
     
     )
 }
