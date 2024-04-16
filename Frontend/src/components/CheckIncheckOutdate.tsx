@@ -108,8 +108,6 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
             </div>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500"
             onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
-            <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500"
-            onClick={() => {checkAvailability();togglePopup();}}>check</button>
             
         </div>):( <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
           <div className="bg-white rounded shadow-lg w-1/2">
