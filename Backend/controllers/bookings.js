@@ -55,10 +55,6 @@ exports.addBooking = async(req,res,next)=>{
         }
 
         // Check if Room is already Booked
-        const isRoomBooked = await Booking.findOne({room:req.body.room,hotel:req.params.hotelId});
-        if(isRoomBooked){
-            return res.status(400).json({success:false,message:`The room with the id of ${req.body.room} is already booked`});
-        }
 
         req.body.user = req.user.id;
         const existedBooking = await Booking.find({user:req.user.id});
