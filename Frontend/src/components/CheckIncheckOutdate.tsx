@@ -40,8 +40,7 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
             const data = await addBooking(session.user.token,bookingBody);
             if (data.success) {
                 toast.success("Booked Successfully");
-                router.back();
-                router.back();
+                router.push("/")
             } else {
                 toast.error("Booking not Success")
             }
@@ -59,15 +58,13 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
     
         const bookings = bookingJson.data;
 
+        const bookingsWithSameRoomId: BookingItem[] = [];
 
-
-    const bookingsWithSameRoomId: BookingItem[] = [];
-
-    for (const booking of bookings) {
-        if (booking.room._id === roomid) {
-            bookingsWithSameRoomId.push(booking);
+        for (const booking of bookings) {
+            if (booking.room._id === roomid) {
+                bookingsWithSameRoomId.push(booking);
+            }
         }
-    }
     
         for (const booking of bookingsWithSameRoomId) {
             const bookingCheckIn = dayjs(booking.bookingDate);
@@ -78,7 +75,14 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
                 (checkOut.isAfter(bookingCheckIn) && checkOut.isSameOrBefore(bookingCheckOut)) ||
                 (checkIn.isBefore(bookingCheckIn) && checkOut.isAfter(bookingCheckOut))
             ) {
+                toast.warning("Booking overlaps with existing booking");
                 console.log("Booking overlaps with existing booking:", booking);
+                return true;
+            }
+
+            if (checkIn.isSameOrAfter(checkOut)) {
+                toast.warning("Check-in date must be before check-out date");
+                console.error("Check-in date must be before check-out date");
                 return true;
             }
         }
@@ -89,6 +93,7 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
 
     const checkAvailability = async () => {
         if (!checkInDate || !checkOutdate) {
+            toast.warning("Please select check-in and check-out dates");
             console.error("Please select check-in and check-out dates");
             return;
         }
@@ -102,9 +107,9 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
         (!isOpen)?(<div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
             <div className="my-10 flex flex-col">
                 <div>Check-In</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckInDate(value)} value={null} name="checkIn"/>
+                <DataReserve onDateChange={(value:Dayjs)=> setCheckInDate(value)} value={null} mindate={dayjs().subtract(1, 'day')} name="checkIn"/>
                 <div>Check-Out</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} name="checkOut"/>
+                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} name="checkOut"/>
             </div>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500 hover:scale-105 transition duration-500 ease-in-out"
             onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
