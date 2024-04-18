@@ -15,7 +15,6 @@ export default function BookingList() {
     const dispatch = useDispatch<AppDispatch>();
 
     const [editState, setEditState] = useState('not')
-    console.log(bookItems)
          
     return (
         <div className="pt-1 pl-3 pr-3">

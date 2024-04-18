@@ -28,7 +28,7 @@ export default function HotelCatalog({hotelJson, search}:{hotelJson:Promise<Hote
           filteredHotels.length === 0 ? <h1 className="text-2xl shadow-lg p-5 shadow-red-400/50 rounded-lg font-medium text-red-400">No Hotels Found</h1> :
             filteredHotels.map((HotelItems)=>(
                 <Link href={`/hotel/${HotelItems.id}`} className="w-full text-black sm:w-[50%] ms:w-[30%] lg:w-[25%] p-2 sm:p-4 md:p-4 lg:p-8" key={HotelItems.id}>
-                  <Card hotelName={HotelItems.name} imgSrc={HotelItems.picture} />
+                  <Card hotelName={HotelItems.name} imgSrc={HotelItems.picture} hotelBooking ={HotelItems.bookings}/>
                 </Link>
                 ))
         }
