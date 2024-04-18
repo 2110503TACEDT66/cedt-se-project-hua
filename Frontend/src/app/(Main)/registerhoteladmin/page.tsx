@@ -33,7 +33,6 @@ export default function RegHotelAdmin() {
             ...form,
             [e.target.name]: e.target.value,
         });
-        console.log(e.target.value)
     }
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -41,7 +40,6 @@ export default function RegHotelAdmin() {
             ...form,
             hid: e.target.value,
         });
-        console.log(e.target.value)
     }
 
     const handleSubmit = (e: React.MouseEvent) => {

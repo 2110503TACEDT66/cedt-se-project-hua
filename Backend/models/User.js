@@ -42,8 +42,8 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     },
     hid: {
-        type: String,
-        default: null
+        type: mongoose.Schema.ObjectId,
+        ref : 'Hotel'
     }
 
 });
@@ -65,5 +65,12 @@ UserSchema.methods.getSignedJwtToken = function() {
 UserSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
+
+UserSchema.pre('deleteOne',{document:true,query:false},async function(next){
+    console.log(`Bookings being removed from User ${this.id}`);
+    
+    await this.model('Booking').deleteMany({user:this._id});
+    next();
+})
 
 module.exports = mongoose.model('User', UserSchema);

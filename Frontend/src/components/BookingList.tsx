@@ -14,6 +14,7 @@ export default function BookingList() {
     const dispatch = useDispatch<AppDispatch>();
 
     const [editState, setEditState] = useState('not')
+    console.log(bookItems)
 
     return (
         <div className="pt-1">
@@ -40,7 +41,7 @@ export default function BookingList() {
                            hotel={bookingItem.hotel.name} room={bookingItem.room.roomNo} baseBookingDate={dayjs(bookingItem.bookingDate)} baseBookingEnd={dayjs(bookingItem.bookingEnd)}/>
                         }
                     </div>
-                )) : <div className="text-2xl dark:text-white text-center">No Hotel has been booked : {bookItems.length}</div>
+                )) : <div className="text-2xl text-red-500 text-center">No Hotel has been booked</div>
             }
         </div>
     )
