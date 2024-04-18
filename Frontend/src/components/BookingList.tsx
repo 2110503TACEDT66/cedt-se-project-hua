@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { Rating,Stack } from "@mui/material"
-import { useReducer } from "react"
 import { useState } from "react"
 
 export default function BookingList() {
@@ -21,7 +20,7 @@ export default function BookingList() {
     return (
         <div className="pt-1 pl-3 pr-3">
             {
-                (bookItems.length > 0) ? bookItems.map((bookingItem) => (
+                (bookItems.length > 0) && session?.user.token ? bookItems.map((bookingItem) => (
                     <div className='bg-violet-300 rounded px-5 py-2 mt-4' key={bookingItem._id}>
                         <div className="text-md">Hotel: {bookingItem.hotel.name}</div>
                         <div className="text-md">Owner: {bookingItem.user.name}</div>
