@@ -16,6 +16,7 @@ export const fetchBooking = createAsyncThunk("booking/fetch", async (token:strin
 });
 
 export const deleteBookingfromDB = createAsyncThunk("booking/remove", async ({token, bid}: {token:string | undefined, bid:string}, thunkAPI) => {
+    console.log(token)
     if (token) {
         const data = await deleteBooking(token, bid)
         toast.success("Booking deleted successfully");
@@ -23,9 +24,14 @@ export const deleteBookingfromDB = createAsyncThunk("booking/remove", async ({to
     }
 });
 
-export const updateBookingDB = createAsyncThunk("booking/update", async ({token, bid, bDate, bEnd}: {token: string | undefined, bid: string, bDate: string, bEnd: string}, thunkAPI) => {
+export const updateBookingDB = createAsyncThunk("booking/update", async ({token, bid, bDate, bEnd, ratingNum}: {token: string | undefined, bid: string, bDate?: string, bEnd?: string, ratingNum: number | null}, thunkAPI) => {
     if (token) {
-        const data = await updateBooking({token,bid,bDate,bEnd})
+        let data;
+        if (ratingNum) {
+            data = await updateBooking({token,bid,ratingNum});
+        } else if (bDate && bEnd) {
+            data = await updateBooking({token,bid,bDate,bEnd});
+        }
         toast.success("Booking updated")
         return data;
     }
@@ -49,13 +55,17 @@ export const bookSlice = createSlice({
         removeBookingLocal: (state, action:PayloadAction<string>) => {
             state.bookItems = state.bookItems.filter((item) => item._id !== action.payload)
         },
-        updateBookingLocal: (state, action:PayloadAction<{bid:string, bDate:string, bEnd:string}>) => {
-            const { bid, bDate, bEnd } = action.payload;
+        updateBookingLocal: (state, action:PayloadAction<{bid:string, bDate?:string, bEnd?:string, ratingNum?:number}>) => {
+            const { bid, bDate, bEnd, ratingNum } = action.payload;
             const existingBook = state.bookItems.findIndex((item) => item._id === bid);
 
             if (existingBook !== -1) {
-                state.bookItems[existingBook].bookingDate = bDate;
-                state.bookItems[existingBook].bookingEnd = bEnd;
+                if (bDate && bEnd) {
+                    state.bookItems[existingBook].bookingDate = bDate;
+                    state.bookItems[existingBook].bookingEnd = bEnd;
+                } else if (ratingNum) {
+                    state.bookItems[existingBook].rating = ratingNum;
+                }
             } else throw new Error("Invalid")
         }
     },

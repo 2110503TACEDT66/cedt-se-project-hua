@@ -34,11 +34,7 @@ const HotelSchema = new mongoose.Schema({
     },
     picture:{
         type:String
-    },
-    rate:{
-        type:Number
     }
-
 
 },{
     toJSON:{virtuals:true},
