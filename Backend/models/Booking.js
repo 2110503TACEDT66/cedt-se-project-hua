@@ -18,13 +18,17 @@ const BookingSchema=new mongoose.Schema({
         type:mongoose.Schema.ObjectId,
         ref : 'Hotel',
         required : true
-
      },
      room:{
         type:mongoose.Schema.ObjectId,
         ref : 'Room',
         required : true
-
+     },
+     rating: {
+         type:Number,
+         default:null,
+         min:0,
+         max:5
      },
      createAt:{
         type:Date,

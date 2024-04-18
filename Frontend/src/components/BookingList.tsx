@@ -1,5 +1,5 @@
 'use client'
-import { deleteBookingfromDB, removeBookingLocal } from "@/redux/features/bookSlice"
+import { deleteBookingfromDB, removeBookingLocal, updateBookingDB, updateBookingLocal } from "@/redux/features/bookSlice"
 import { AppDispatch, useAppSelector } from "@/redux/store"
 import EditBooking from "./EditBooking"
 import dayjs from 'dayjs'
@@ -17,9 +17,6 @@ export default function BookingList() {
 
     const [editState, setEditState] = useState('not')
     console.log(bookItems)
-
-    const [value, setValue] = useState<number | null>(5);
-
          
     return (
         <div className="pt-1 pl-3 pr-3">
@@ -42,14 +39,17 @@ export default function BookingList() {
                             onClick={() => setEditState(bookingItem._id)}>Edit</button>
                         </div>
                         <Stack spacing={2} className='mx-2'>
-                                <Rating
-                                    id={`${bookingItem.hotel.name} Rating`}
-                                    name={`${bookingItem.hotel.name} Rating`}
-                                    value={value}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue);
-                                    }}
-                                />
+                            <Rating
+                                id={`${bookingItem.hotel.name} Rating`}
+                                name={`${bookingItem.hotel.name} Rating`}
+                                value={bookingItem.rating}
+                                onChange={(event, rating) => {
+                                    if (rating)
+                                        dispatch(updateBookingLocal({bid:bookingItem._id, ratingNum:rating}));
+                                        dispatch(updateBookingDB({token:session?.user.token, bid:bookingItem._id, ratingNum: rating}));
+                                    }
+                                }
+                            />
                         </Stack>
                         {
                            editState === bookingItem._id && <EditBooking closeEdit={() => setEditState('not')} bid={bookingItem._id} 
