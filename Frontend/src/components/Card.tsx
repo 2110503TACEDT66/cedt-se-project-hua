@@ -26,7 +26,7 @@ export default function Card({hotelName,imgSrc,hotelBooking}:{hotelName:string,i
                 {hotelName}
             </div>
             { <Rating id={hotelName + ' Rating'} name={hotelName + ' Rating'} value={value} onClick={(e)=>{e.stopPropagation}} readOnly
-            className='h-[15%] px-3' 
+            className='h-[15%] px-3'  precision={0.5}
             />}
         </div>
     )

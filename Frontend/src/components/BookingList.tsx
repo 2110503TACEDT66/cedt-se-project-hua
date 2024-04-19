@@ -6,16 +6,18 @@ import dayjs from 'dayjs'
 import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { Rating,Stack } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import getUserProfile from "@/libs/getUserProfile"
 
-export default function BookingList() {
+export default function BookingList({profile} :{profile:any}) {
     const { data: session } = useSession();
     
     const bookItems = useAppSelector((state) => state.bookSlice.bookItems)
     const dispatch = useDispatch<AppDispatch>();
 
     const [editState, setEditState] = useState('not')
-         
+    //const [profile, setProfile] = useState('')
+    
     return (
         <div className="pt-1 pl-3 pr-3">
             {
@@ -36,7 +38,8 @@ export default function BookingList() {
                             <button className="block rounded-md bg-violet-950 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm mx-5"
                             onClick={() => setEditState(bookingItem._id)}>Edit</button>
                         </div>
-                        <Stack spacing={2} className='mx-2'>
+                        {
+                            (profile.data.role === 'user') ? <Stack spacing={2} className='mx-2'>
                             <Rating
                                 id={`${bookingItem.hotel.name} Rating`}
                                 name={`${bookingItem.hotel.name} Rating`}
@@ -48,7 +51,16 @@ export default function BookingList() {
                                     }
                                 }
                             />
-                        </Stack>
+                        </Stack> :
+                        <Stack spacing={2} className='mx-2'>
+                        <Rating
+                            id={`${bookingItem.hotel.name} Rating`}
+                            name={`${bookingItem.hotel.name} Rating`}
+                            value={bookingItem.rating}
+                            readOnly/>
+                    </Stack>
+                        }
+                        
                         {
                            editState === bookingItem._id && <EditBooking closeEdit={() => setEditState('not')} bid={bookingItem._id} 
                            hotel={bookingItem.hotel.name} room={bookingItem.room.roomNo} baseBookingDate={dayjs(bookingItem.bookingDate)} baseBookingEnd={dayjs(bookingItem.bookingEnd)}/>
