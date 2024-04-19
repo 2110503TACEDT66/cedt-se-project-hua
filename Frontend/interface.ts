@@ -44,12 +44,13 @@ interface BookingItem {
         province: string,
         tel: string,
         id: string
-    }
+    },
     room: {
         _id: string,
         roomNo: string,
         roomType: string
-    }
+    },
+    rating: number,
     createdAt: string,
     __v: string
 }

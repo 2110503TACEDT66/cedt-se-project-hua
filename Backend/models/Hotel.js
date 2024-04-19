@@ -34,11 +34,7 @@ const HotelSchema = new mongoose.Schema({
     },
     picture:{
         type:String
-    },
-    rate:{
-        type:Number
     }
-
 
 },{
     toJSON:{virtuals:true},
@@ -47,9 +43,10 @@ const HotelSchema = new mongoose.Schema({
 }
 ) ;
 HotelSchema.pre('deleteOne',{document:true,query:false},async function(next){
-    console.log(`Rooms and bookings being removed from hotel ${this.id}`);
+    console.log(`Rooms, bookings and hotelAdmin being removed from hotel ${this.id}`);
     await this.model('Room').deleteMany({hotel:this._id});
     await this.model('Booking').deleteMany({hotel:this._id});
+    await this.model('User').deleteMany({hid:this._id});
     next();
 })
 HotelSchema.virtual('rooms',{

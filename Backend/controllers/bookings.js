@@ -55,10 +55,6 @@ exports.addBooking = async(req,res,next)=>{
         }
 
         // Check if Room is already Booked
-        const isRoomBooked = await Booking.findOne({room:req.body.room,hotel:req.params.hotelId});
-        if(isRoomBooked){
-            return res.status(400).json({success:false,message:`The room with the id of ${req.body.room} is already booked`});
-        }
 
         req.body.user = req.user.id;
         const existedBooking = await Booking.find({user:req.user.id});
@@ -84,7 +80,7 @@ exports.updateBooking=async(req,res,next)=>{
             return res.status(404).json({success:true,message:`No Booking with the id of${req.params.id}`});
         }
 
-        if(booking.user.toString() !== req.user.id && req.user.role!=='admin'){
+        if((booking.user.toString() !== req.user.id && req.user.role === 'user')){
             return res.status(401).json({success:false,message:`User ${req.user.id} is not authorized to update this booking`})
         }
         booking=await Booking.findByIdAndUpdate(req.params.id,req.body,{
@@ -105,7 +101,7 @@ exports.deleteBooking=async(req,res,next)=>{
             return res.status(404).json({success:true,message:`No Booking with the id of${req.params.id}`});
         }
 
-        if(booking.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        if((booking.user.toString() !== req.user.id && req.user.role === 'user')) {
             return res.status(401).json({success:false, message:`User ${req.user.id} is not authorized to delete this booking`})
         }
 
