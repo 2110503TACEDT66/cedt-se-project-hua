@@ -4,15 +4,24 @@ import Card from "./Card";
 import Link from "next/link";
 
 export default function HotelCatalog({hotelJson, search}:{hotelJson:Promise<HotelJson>, search:String}){
-    // const hotelJsonReady = await hotelJson
+    // use for filtering hotels
     const [filteredHotels, setFilteredHotels] = useState<HotelItem[]>([]);
+    const [data, setData] = useState<HotelJson>();
 
   useEffect(() => {
-    async function filterHotels() {
-      const data = await hotelJson;
+    // const data = await hotelJson;
+    async function fetchData() {
+      setData(await hotelJson);
+    }
+    fetchData();
+  },[hotelJson])
+
+  useEffect(() => {
+    function filterHotels() {
+      // const data = await hotelJson;
       // filter hotels based on search if search is not empty or undefined return all hotels, else return searched hotels
       setFilteredHotels(
-        data.data.filter((hotelItem) =>
+        (data?.data ?? []).filter((hotelItem) =>
           search?.toLocaleLowerCase() === '' || search === undefined ? hotelItem : hotelItem.name.toLocaleLowerCase().includes(search?.toLocaleLowerCase())
         )
       );
