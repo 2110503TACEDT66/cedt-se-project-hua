@@ -37,8 +37,7 @@ export default function RegisterPage() {
                 email: form.email,
                 tel: form.tel,
                 password: form.password,
-                role: 'user',
-                hid: ''
+                role: 'user'
             };
             
             // Call the registerUser function
