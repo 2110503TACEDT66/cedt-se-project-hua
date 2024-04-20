@@ -1,7 +1,7 @@
 "use client"
 
 import DataReserve from "./DateReserve"
-import { useState } from "react"
+import { use, useState , useEffect} from "react"
 import dayjs, {Dayjs} from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -23,6 +23,7 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
     const [checkOutdate,setCheckOutDate] = useState<Dayjs | null>(null)
     const [isBooked, setIsBooked] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [bookingData, setBookingData] = useState([]);
     const togglePopup = () => {
         setIsOpen(!isOpen);
     };
@@ -46,21 +47,33 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
             }
         }
     }
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTJlMWE3ZWZhNjY0OTY1YTI3ZWFmZiIsImlhdCI6MTcxMzEyNjE5NiwiZXhwIjoxNzE1NzE4MTk2fQ.ZVMFRcku1ECDs7KmeIQ9B91i6HwJ7nRyZ5u3AMS8f_o";
+    useEffect(() => {
+        if (session) {
+            
+            getBookings(token).then((bookingJson) => {
+                const filtered = bookingJson.data.filter((item:BookingItem) => item.room._id === roomid);
+                setBookingData(filtered);
+                console.log(typeof(bookingJson.data));
+            })
+        }
+    }, [])
 
     const CheckRoom = async (checkIn: Dayjs, checkOut: Dayjs) => {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTJlMWE3ZWZhNjY0OTY1YTI3ZWFmZiIsImlhdCI6MTcxMzEyNjE5NiwiZXhwIjoxNzE1NzE4MTk2fQ.ZVMFRcku1ECDs7KmeIQ9B91i6HwJ7nRyZ5u3AMS8f_o";
-        const bookingJson = await getBookings(token);
         
-        if (!bookingJson || !Array.isArray(bookingJson.data)) {
+        const bookingJson = bookingData;
+        
+        if (!bookingJson || !Array.isArray(bookingData)) {
             console.error("Invalid booking data format");
             return;
         }
     
-        const bookings = bookingJson.data;
-
+        const bookings = bookingData;
+        setBookingData(bookings);
+        console.log(bookings);
         const bookingsWithSameRoomId: BookingItem[] = [];
-
-        for (const booking of bookings) {
+        let booking: BookingItem;
+        for (booking of bookings) {
             if (booking.room._id === roomid) {
                 bookingsWithSameRoomId.push(booking);
             }
@@ -107,7 +120,7 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
         (!isOpen)?(<div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
             <div className="my-10 flex flex-col">
                 <div>Check-In</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckInDate(value)} value={null} mindate={dayjs().subtract(1, 'day')} name="checkIn"/>
+                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={null} mindate={dayjs().subtract(1, 'day')} unavailableDate={bookingData}   name="checkIn"/>
                 <div>Check-Out</div>
                 <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} name="checkOut"/>
             </div>
