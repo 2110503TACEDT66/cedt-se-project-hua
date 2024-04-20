@@ -23,7 +23,7 @@ export default async function HotelDetailPage({params}:{params:{hid:string}}){
                 </div>
             </div>
             <div className="flex flex-row">
-                <RoomCatalog roomJson={roomDetail} />
+                <RoomCatalog roomJson={roomDetail} hid={params.hid} />
             </div>
         </main>
     )

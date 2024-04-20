@@ -4,7 +4,7 @@ import RoomInteract from "./RoomInteract";
 import Link from "next/link";
 
 
-export default function RoomCard({RoomItem}:{RoomItem:RoomItem}){
+export default function RoomCard({RoomItem,setRoom}:{RoomItem:RoomItem,setRoom:Function}){
     return(
             // <RoomInteract>
             <div className="flex flex-col w-full h-64 rounded-lg shadow-lg bg-white">
@@ -20,9 +20,9 @@ export default function RoomCard({RoomItem}:{RoomItem:RoomItem}){
                         <div className="">Room Type : {RoomItem.roomType}</div>
                         <div className="">Price : {RoomItem.price} Baht/Day</div>
                     </div>
-                    <Link href={`/booking/${RoomItem.hotel._id}/${RoomItem._id}`}>
-                        <button className="absolute bottom-2 right-2 rounded-xl py-2 px-3 text-white font-medium bg-purple-400 transition duration-100 hover:scale-105">Booking</button>
-                    </Link>
+                    
+                        <button onClick={() => {setRoom(RoomItem._id)}} className="absolute bottom-2 right-2 rounded-xl py-2 px-3 text-white font-medium bg-purple-400 transition duration-100 hover:scale-105">Booking</button>
+                    
                 </div>
             </div>
 
