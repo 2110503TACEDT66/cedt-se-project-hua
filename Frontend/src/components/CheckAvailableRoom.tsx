@@ -17,7 +17,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
-export default function CheckAvailableRoom({hid, roomid,find,allRoom} : {hid: string, roomid: string,find:Function,allRoom:RoomItem[]}) {
+export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : {hid: string, roomid: string,find:Function,allRoom:RoomItem[],setRoom:Function}) {
     const { data: session } = useSession();
     const roomBooked: Set<string> = new Set();
     const [checkInDate,setCheckInDate] = useState<Dayjs | null>(null)
@@ -132,15 +132,17 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom} : {hid: st
     };
 
     return (
-        (!isOpen)?(<div className="flex flex-col bg-gray-100 p-7 pt-1 rounded-2xl ">
-            <div className="my-10 flex flex-col">
+        (!isOpen)?(<div className="flex flex-col bg-gray-100 p-7 pt-1 rounded-2xl w-[60%] m-auto transition delay-500 duration-300 ease-in-out">
+            <div className="my-3 flex flex-col">
                 <div>Check-In</div>
-                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={null} mindate={dayjs().subtract(1, 'day')} unavailableDate={bookingData}   name="checkIn"/>
+                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={checkInDate} mindate={dayjs().subtract(1, 'day')} unavailableDate={bookingData}   name="checkIn"/>
                 <div>Check-Out</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} unavailableDate={bookingData} name="checkOut"/>
+                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={checkInDate} mindate={dayjs()} unavailableDate={bookingData} name="checkOut"/>
             </div>
-            <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500 hover:scale-105 transition duration-500 ease-in-out"
+            <button className="bg-cyan-400 p-3 mb-2 text-xl rounded-xl hover:bg-cyan-500 hover:scale-104 transition duration-200 ease-in-out"
             onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
+            <button className="bg-red-400 p-3 text-xl rounded-xl hover:bg-red-500 hover:scale-104 transition duration-200 ease-in-out "
+            onClick={() => {setRoom('');setCheckInDate(null);}}>Clear</button>
             
         </div>):( <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-40">
           <div className="bg-white rounded shadow-lg w-1/2">
