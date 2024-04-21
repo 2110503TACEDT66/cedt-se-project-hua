@@ -98,5 +98,5 @@ interface UserPayload {
     tel: string,
     password: string,
     role: string,
-    hid: string
+    hid?: string
 }
