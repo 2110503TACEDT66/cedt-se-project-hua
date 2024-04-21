@@ -132,20 +132,20 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom} : {hid: st
     };
 
     return (
-        (!isOpen)?(<div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
+        (!isOpen)?(<div className="flex flex-col bg-gray-100 p-7 pt-1 rounded-2xl ">
             <div className="my-10 flex flex-col">
                 <div>Check-In</div>
                 <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={null} mindate={dayjs().subtract(1, 'day')} unavailableDate={bookingData}   name="checkIn"/>
                 <div>Check-Out</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} name="checkOut"/>
+                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} unavailableDate={bookingData} name="checkOut"/>
             </div>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500 hover:scale-105 transition duration-500 ease-in-out"
             onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
             
-        </div>):( <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+        </div>):( <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-40">
           <div className="bg-white rounded shadow-lg w-1/2">
             <div className="px-4 py-2 flex justify-between items-center bg-blue-500 text-white rounded-t">
-              <h2 className="text-lg font-semibold">Popup Title</h2>
+              <h2 className="text-lg font-semibold"></h2>
               <button onClick={() => {togglePopup(); }} className="text-white hover:scale-105 transition duration-500 ease-in-out">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
