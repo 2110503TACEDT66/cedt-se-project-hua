@@ -17,16 +17,23 @@ export default function RoomCatalog({roomJson,hid}:{roomJson:RoomJson,hid:string
     const sortedData = roomJsonReady.data.sort((a, b) => a.roomNo.localeCompare(b.roomNo));
     const [availableRoom, setAvailableRoom] = useState(sortedData);
     return (
-        <div className="m-5 flex flex-row flex-wrap justify-around content-around p-2.5 w-full">
-        {roomId}
-        <CheckAvailableRoom hid={hid} roomid={roomId} find={findRoom} allRoom={sortedData}/>
-        {
-            availableRoom.sort().map((RoomItem:RoomItem)=>(
-                <div className="w-4/5 py-5 flex flex-col relative" key={RoomItem._id}> 
-                  <RoomCard RoomItem={RoomItem} setRoom={forRoomId} />
-                </div>
-            ))
-        }
+        <div  className="flex justify-around content-around p-2.5 w-full pl-10 h-[550px]">
+            <div className="ml-auto mt-5
+             flex flex-row  justify-around content-around p-2.5 w-1/2 h-fit">
+                {roomId}
+                <CheckAvailableRoom hid={hid} roomid={roomId} find={findRoom} allRoom={sortedData}/>
+            </div>
+
+            <div className="m-5 flex flex-row flex-wrap content-around p-2.5 w-1/2 h-3/4 overflow-auto">
+            
+            {
+                availableRoom.sort().map((RoomItem:RoomItem)=>(
+                    <div className="w-4/5 py-5 flex flex-col relative" key={RoomItem._id}> 
+                    <RoomCard RoomItem={RoomItem} setRoom={forRoomId} />
+                    </div>
+                ))
+            }
+            </div>
         </div>
     )
 }
