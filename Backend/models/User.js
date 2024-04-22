@@ -44,8 +44,11 @@ const UserSchema = new mongoose.Schema({
     hid: {
         type: mongoose.Schema.ObjectId,
         ref : 'Hotel'
-    }
-
+    },
+    notifications: [{
+        type: mongoose.Schema.ObjectId,
+        ref : 'Notification'
+    }]
 });
 
 // Encrypt password using bcrypt
