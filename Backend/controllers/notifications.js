@@ -12,7 +12,11 @@ exports.getNotification = async(req,res,next)=>{
 
 exports.addNotification = async(req,res,next)=>{
     try{
-        res.status(200).json({success:true,data:"add Notification"});
+
+        req.body.user = req.user.id;
+        const Notifications = await Notification.create(req.body);
+
+        res.status(200).json({success:true,data:Notifications});
 
     }catch(error){
         console.log(error);
