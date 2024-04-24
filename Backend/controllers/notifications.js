@@ -12,11 +12,22 @@ exports.getNotification = async(req,res,next)=>{
 
 exports.addNotification = async(req,res,next)=>{
     try{
+        const { type, title, message, user } = req.body;
 
-        req.body.user = req.user.id;
-        const Notifications = await Notification.create(req.body);
+        // Check if all required fields are present
+        if (!type || !title || !message || !user) {
+            return res.status(400).json({ success: false, message: "Missing required fields" });
+        }
 
-        res.status(200).json({success:true,data:Notifications});
+        // Check if type is one of the allowed values
+        if (type !== 'update' && type !== 'delete') {
+            return res.status(400).json({ success: false, message: "Invalid notification type" });
+        }
+
+        // Create the notification
+        const notification = await Notification.create(req.body);
+
+        res.status(200).json({success:true,data:notification});
 
     }catch(error){
         console.log(error);
