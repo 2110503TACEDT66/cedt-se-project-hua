@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const Booking = require('./Booking');
 
 const NotificationSchema=new mongoose.Schema({
     type:{
@@ -18,9 +19,25 @@ const NotificationSchema=new mongoose.Schema({
         ref : 'User',
         required : true
     },
+    bookingId:{
+        type:mongoose.Schema.ObjectId,
+        required : true
+    },
     createAt:{
         type:Date,
         default:Date.now
     }
+},
+{
+    toJSON:{virtuals:true},
+    toObject:{virtuals:true}
+
 });
+NotificationSchema.virtual('bookings',{
+    ref:'Booking',
+    localField:'bookingId',
+    foreignField:'_id',
+    justOne:false
+});
+
 module.exports=mongoose.model('Notification',NotificationSchema);
