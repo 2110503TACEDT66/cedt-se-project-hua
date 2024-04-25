@@ -2,8 +2,9 @@ const Notification = require('../models/Notification');
 
 exports.getNotification = async(req,res,next)=>{
     try {
-  
-        res.status(200).json({success:true, data:"get Notification"});
+        console.log(req.user.id);
+        const notifications = await Notification.find({user:req.user.id}).populate('bookings');
+        res.status(200).json({success:true, data:notifications});
     } catch(error) {
         console.log(error);
         return res.status(500).json({success:false,message:"Cannot find Notification"});
