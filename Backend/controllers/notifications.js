@@ -13,10 +13,10 @@ exports.getNotification = async(req,res,next)=>{
 
 exports.addNotification = async(req,res,next)=>{
     try{
-        const { type, title, message, user } = req.body;
+        const { type, title, message,bookingId, user } = req.body;
 
         // Check if all required fields are present
-        if (!type || !title || !message || !user) {
+        if (!type || !title || !message || !user || !bookingId) {
             return res.status(400).json({ success: false, message: "Missing required fields" });
         }
 
