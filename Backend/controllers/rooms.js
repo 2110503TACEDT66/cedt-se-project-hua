@@ -48,7 +48,7 @@ exports.addRoom=async(req,res,next)=>{
         }
         
         const room = await Room.create(req.body);
-        res.status(200).json({success:true,data:room});
+        res.status(201).json({success:true,data:room});
 
     }catch(error){
         console.log(error);

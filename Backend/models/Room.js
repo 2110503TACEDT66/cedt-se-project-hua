@@ -20,10 +20,6 @@ const RoomSchema=new mongoose.Schema({
     },
     picture:{
         type: String
-    },
-    booked: {
-        type : Boolean,
-        default : false
     }
     
 })
