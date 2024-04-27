@@ -35,3 +35,24 @@ exports.addNotification = async(req,res,next)=>{
         return res.status(500).json({success:false,message:"Cannot create Notification"});
     }
 }
+
+exports.deleteNotification = async(req,res,next)=>{
+    try{
+        const notification = await Notification.findById(req.params.id);
+
+        if(!notification){
+            return res.status(404).json({success:false,message:"Notification not found"});
+        }
+
+        if(notification.user.toString() !== req.user.id && req.user.role !== 'admin'){
+            return res.status(401).json({success:false,message:"Not authorized to delete Notification"});
+        }
+
+        await notification.deleteOne();
+
+        res.status(200).json({success:true,data:{}});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({success:false,message:"Cannot delete Notification"});
+    }
+}

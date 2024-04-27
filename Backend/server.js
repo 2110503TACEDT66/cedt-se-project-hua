@@ -8,6 +8,8 @@ const {xss} = require('express-xss-sanitizer');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 // Load env vars
 dotenv.config({path:'./config/config.env'});
@@ -21,6 +23,7 @@ const auth = require('./routes/auth');
 const bookings = require('./routes/bookings');
 const rooms=require('./routes/rooms');
 const notifications=require('./routes/notifications');
+const { version } = require('mongoose');
 
 const app = express();
 // Body parser
@@ -52,11 +55,29 @@ app.use(hpp());
 // Enable CORS
 app.use(cors());
 
+// route files
 app.use('/api/v1/hotels' , hotels);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/bookings',bookings);
 app.use('/api/v1/rooms',rooms);
 app.use('/api/v1/notifications',notifications);
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Acocoa Booking API',
+            version: '1.0.0',
+            description: "this is API for Acocoa Booking System, This is use for [Acocoa Project](https://github.com/2110503TACEDT66/cedt-se-project-hua)",
+        },
+        servers: [
+            { url: `${process.env.HOST}:${process.env.PORT}/api/v1` }
+        ]
+    },
+    apis: ['./APIdocs/*.js']
+}
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 5000;
 
