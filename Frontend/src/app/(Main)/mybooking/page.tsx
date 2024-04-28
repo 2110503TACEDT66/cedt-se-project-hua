@@ -59,34 +59,36 @@ export default function myBookingPage() {
     return (
         <main className="h-screen p-5">
             <div className="text-5xl text-center text-black font-bold p-6">My Booking</div>
-            {
-                loading ? 
-                <div className="flex items-center justify-center">
-                    <TailSpin stroke="#BAA9D6"/>
-                </div>
-                : 
-                <>
-                    <div className="flex ">
-                        <div className="flex font-medium items-center gap-1">
-                            Sort By:
-                            <select onChange={handleSelectChange} value={sortBy}
-                                className='bg-purple-50 border border-purple-300 text-black text-base font-medium rounded-lg focus:ring-purple-400 focus:border-purple-400 block w-40 p-2.5 '>
-                                    <option hidden >Select Hotel</option>
-                                    <option value={'rating'} > Rating </option>
-                                    <option value={'bookingDate'} > Booking Start </option>
-                                    <option value={'createAt'} > Created Date </option>
-                            </select>
-                        </div>
-                        <button onClick={()=>handlePriority()} className="flex gap-1 items-center rounded-md bg-purple-400 transition duration-100 scale-105 hover:bg-purple-700 px-3 py-1 text-white shadow-sm mx-5">
-                            {
-                               isAsc ? <RiSortAsc /> : <RiSortDesc />
-                            } Order
-                        </button>
+            <div className="shadow-inner shadow-slate-100 p-4 rounded-2xl">
+                {
+                    loading ? 
+                    <div className="flex items-center justify-center">
+                        <TailSpin stroke="#BAA9D6"/>
                     </div>
-                    {/* create a button that clear the select input */}
-                    <BookingList profile={profile}/>
-                </>
-            }
+                    : 
+                    <>
+                        <div className="flex ">
+                            <div className="flex font-medium items-center gap-1 text-xl">
+                                Sort By:
+                                <select onChange={handleSelectChange} value={sortBy}
+                                    className='bg-purple-50 border border-purple-300 text-black text-base font-medium rounded-lg focus:ring-purple-400 focus:border-purple-400 block w-40 p-2.5 '>
+                                        <option hidden >Select Hotel</option>
+                                        <option value={'rating'} > Rating </option>
+                                        <option value={'bookingDate'} > Booking Start </option>
+                                        <option value={'createAt'} > Created Date </option>
+                                </select>
+                            </div>
+                            <button onClick={()=>handlePriority()} className="flex gap-1 items-center rounded-md bg-purple-400 transition duration-100 scale-105 hover:bg-purple-700 px-3 py-1 text-white shadow-sm mx-5">
+                                {
+                                isAsc ? <RiSortAsc /> : <RiSortDesc />
+                                } Order
+                            </button>
+                        </div>
+                        {/* create a button that clear the select input */}
+                        <BookingList profile={profile}/>
+                    </>
+                }
+            </div>
         </main>
     )
 }
