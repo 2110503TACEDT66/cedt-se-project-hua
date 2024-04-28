@@ -28,7 +28,7 @@ exports.getBookings = async (req,res,next)=>{
         const sortBy = req.query.sort.split(',').join(' ');
         query = query.sort(sortBy);
     } else {
-        query=query.sort('rating');
+        query=query.sort('bookingStart');
     }
 
     try{

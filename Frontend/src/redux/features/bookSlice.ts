@@ -10,8 +10,8 @@ type BookState = {
 
 const initialState: BookState = { bookItems: [] }
 
-export const fetchBooking = createAsyncThunk("booking/fetch", async (token:string,thunkAPI) => {
-    const data = await getBookings(token)
+export const fetchBooking = createAsyncThunk("booking/fetch", async ({token, sort}: {token: string, sort?: string}, thunkAPI) => {
+    const data = await getBookings(token, sort)
     return data;
 });
 
