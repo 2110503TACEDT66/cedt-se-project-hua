@@ -11,6 +11,7 @@ import getUserProfile from "@/libs/getUserProfile"
 
 export default function BookingList({profile} :{profile:any}) {
     const { data: session } = useSession();
+    const [sortBy, setSortBy] = useState('bookingDate')
     
     const bookItems = useAppSelector((state) => state.bookSlice.bookItems)
     const dispatch = useDispatch<AppDispatch>();
@@ -19,7 +20,7 @@ export default function BookingList({profile} :{profile:any}) {
     //const [profile, setProfile] = useState('')
     
     return (
-        <div className="pt-1 pl-3 pr-3">
+        <div className="pt-1">
             {
                 (bookItems.length > 0) && session?.user.token ? bookItems.map((bookingItem) => (
                     <div className='bg-violet-300 rounded px-5 py-2 mt-4' key={bookingItem._id}>
