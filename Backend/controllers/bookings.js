@@ -4,10 +4,17 @@ const Room = require('../models/Room');
 
 exports.getBookings = async (req,res,next)=>{
     let query;
+    const reqQuery = {...req.query};
+    const removeFields = ['sort'];
+    removeFields.forEach(param => delete reqQuery[param]);
+
+    let queryStr = JSON.stringify(reqQuery);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match=>`$${match}`);
+
+    
     if (req.user.role === 'hotelAdmin') {
         query = populateQuery(Booking.find({hotel:req.user.hid}));
-    }
-    else if (req.user.role !== 'admin'){
+    } else if (req.user.role !== 'admin'){
         query = populateQuery(Booking.find({user:req.user.id}));
     } else if (req.params.hotelId) {
         console.log(req.params.hotelId);
@@ -15,6 +22,13 @@ exports.getBookings = async (req,res,next)=>{
         query = populateQuery(Booking.find({hotel:req.params.hotelId}));
     } else {
         query = populateQuery(Booking.find());
+    }
+
+    if(req.query.sort){
+        const sortBy = req.query.sort.split(',').join(' ');
+        query = query.sort(sortBy);
+    } else {
+        query=query.sort('rating');
     }
 
     try{
