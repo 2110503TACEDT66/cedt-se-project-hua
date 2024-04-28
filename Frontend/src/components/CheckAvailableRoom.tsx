@@ -31,7 +31,7 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
     const router = useRouter();
 
     const handleSubmit = async () => {
-        if (checkInDate && checkOutdate && session?.user.token) {
+        if (checkInDate && checkOutdate && session?.user.token && checkInDate.isBefore(checkOutdate)) {
             const bookingBody:BookingData = {
                 hid,
                 roomid,
@@ -44,8 +44,10 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
                 toast.success("Booked Successfully");
                 router.push("/")
             } else {
-                toast.error("Booking not Success")
+                toast.error("Booking not Success");
             }
+        }else{
+            toast.error("Booking not Success");
         }
     }
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTJlMWE3ZWZhNjY0OTY1YTI3ZWFmZiIsImlhdCI6MTcxMzEyNjE5NiwiZXhwIjoxNzE1NzE4MTk2fQ.ZVMFRcku1ECDs7KmeIQ9B91i6HwJ7nRyZ5u3AMS8f_o";
