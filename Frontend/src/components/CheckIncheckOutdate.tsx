@@ -120,9 +120,9 @@ export default function CheckIncheckoutDate({hid, roomid} : {hid: string, roomid
         (!isOpen)?(<div className="flex flex-col mt-20 bg-gray-400 p-7 pt-1 rounded-2xl">
             <div className="my-10 flex flex-col">
                 <div>Check-In</div>
-                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={null} mindate={dayjs().subtract(1, 'day')} unavailableDate={bookingData}   name="checkIn"/>
+                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={null} mindate={dayjs()} unavailableDate={bookingData}   name="checkIn"/>
                 <div>Check-Out</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} name="checkOut"/>
+                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={null} mindate={dayjs()} unavailableDate={bookingData} name="checkOut"/>
             </div>
             <button className="bg-cyan-400 p-3 text-xl rounded-xl hover:bg-cyan-500 hover:scale-105 transition duration-500 ease-in-out"
             onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
