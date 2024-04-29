@@ -31,7 +31,7 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
     const router = useRouter();
 
     const handleSubmit = async () => {
-        if (checkInDate && checkOutdate && session?.user.token) {
+        if (checkInDate && checkOutdate && session?.user.token && checkInDate.isBefore(checkOutdate)) {
             const bookingBody:BookingData = {
                 hid,
                 roomid,
@@ -44,8 +44,10 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
                 toast.success("Booked Successfully");
                 router.push("/")
             } else {
-                toast.error("Booking not Success")
+                toast.error("Booking not Success");
             }
+        }else{
+            toast.error("Booking not Success");
         }
     }
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTJlMWE3ZWZhNjY0OTY1YTI3ZWFmZiIsImlhdCI6MTcxMzEyNjE5NiwiZXhwIjoxNzE1NzE4MTk2fQ.ZVMFRcku1ECDs7KmeIQ9B91i6HwJ7nRyZ5u3AMS8f_o";
@@ -135,9 +137,9 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
         (!isOpen)?(<div className="flex flex-col bg-gray-100 p-7 pt-1 rounded-2xl w-[60%] m-auto transition delay-500 duration-300 ease-in-out">
             <div className="my-3 flex flex-col">
                 <div>Check-In</div>
-                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={checkInDate} mindate={dayjs().subtract(1, 'day')} unavailableDate={bookingData}   name="checkIn"/>
+                <DataReserve onDateChange={(value:Dayjs)=> {setCheckInDate(value);}} value={checkInDate} mindate={dayjs()} unavailableDate={bookingData}   name="checkIn"/>
                 <div>Check-Out</div>
-                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={checkInDate} mindate={dayjs()} unavailableDate={bookingData} name="checkOut"/>
+                <DataReserve onDateChange={(value:Dayjs)=> setCheckOutDate(value)} value={checkInDate} mindate={checkInDate?checkInDate:dayjs()} unavailableDate={bookingData} name="checkOut"/>
             </div>
             <button className="bg-cyan-400 p-3 mb-2 text-xl rounded-xl hover:bg-cyan-500 hover:scale-104 transition duration-200 ease-in-out"
             onClick={() => {checkAvailability();togglePopup();}}>Booking</button>
@@ -155,8 +157,8 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
               </button>
             </div>
             <div className="p-4 text-black">
-            {(isBooked || (!checkInDate && !checkOutdate)) ? <div>
-                <p>Room is not available, Please choose new booking time</p>
+            {(isBooked || (!checkInDate && !checkOutdate) || checkInDate?.isBefore(checkOutdate)) ? <div>
+                <p>Booking time is not available, Please choose new booking time</p>
                 <div className="mt-4 flex justify-end">
                 <button onClick={() => {togglePopup(); window.location.reload() }} className="bg-blue-500 hover:bg-blue-700 text-white m-auto font-bold py-2 px-4 rounded hover:scale-105 transition duration-500 ease-in-out">
                   Close
