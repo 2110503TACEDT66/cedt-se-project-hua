@@ -10,6 +10,9 @@ export default function RoomCatalog({roomItem,hid, profile}:{roomItem:RoomItem[]
     const [roomId, setRoomId] = useState('' as string); 
     const [roomNumber, setRoomNumber] = useState('' as string);
     const { data: session } = useSession();
+    const sortedData = roomItem.sort((a, b) => a.roomNo.localeCompare(b.roomNo));
+    const [availableRoom, setAvailableRoom] = useState(sortedData);
+    
     const findRoom = (room:[]) => {
         setAvailableRoom(room);
     }
@@ -30,8 +33,6 @@ export default function RoomCatalog({roomItem,hid, profile}:{roomItem:RoomItem[]
         }
     }
     
-    const sortedData = roomItem.sort((a, b) => a.roomNo.localeCompare(b.roomNo));
-    const [availableRoom, setAvailableRoom] = useState(sortedData);
     return (
         <div  className="flex justify-around content-around  w-full pl-10 h-[550px]">
             <div className="ml-auto mt-5

@@ -1,7 +1,7 @@
 "use client"
 
 import DataReserve from "./DateReserve"
-import { use, useState , useEffect} from "react"
+import { use, useState , useEffect, useCallback} from "react"
 import dayjs, {Dayjs} from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -24,7 +24,9 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
     const [checkOutdate,setCheckOutDate] = useState<Dayjs | null>(null)
     const [isBooked, setIsBooked] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [bookingData, setBookingData] = useState([]);
+    const [bookingData, setBookingData] = useState<BookingItem[]>([]);
+    const [initialData, setInitialData] = useState<BookingItem[]>([]);
+
     const togglePopup = () => {
         setIsOpen(!isOpen);
     };
@@ -51,29 +53,37 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
         }
     }
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTJlMWE3ZWZhNjY0OTY1YTI3ZWFmZiIsImlhdCI6MTcxMzEyNjE5NiwiZXhwIjoxNzE1NzE4MTk2fQ.ZVMFRcku1ECDs7KmeIQ9B91i6HwJ7nRyZ5u3AMS8f_o";
+
+    const isDateOverlap = useCallback((date1Start: Dayjs, date1End: Dayjs, date2Start: Dayjs, date2End: Dayjs) => {
+        date1Start = date1Start.startOf('day');
+        date1End = date1End.startOf('day');
+        date2Start = date2Start.startOf('day');
+        date2End = date2End.startOf('day');
+        return date1Start.isSameOrBefore(date2End) && date1End.isSameOrAfter(date2Start);
+    }, []);
+
     useEffect(() => {
-        if (session) {
-            
-            getBookings(token).then((bookingJson) => {
-                const filtered = bookingJson.data.filter((item:BookingItem) => item.room._id === roomid);
-                setBookingData(filtered);
-                for(const books of bookingJson.data){
-                    if (checkInDate?.isSame(dayjs(books.bookingDate).format("YYYY-MM-DD")) || checkInDate?.isSame(dayjs(books.bookingEnd).format("YYYY-MM-DD")) || 
-                    (checkInDate?.isBefore(dayjs(books.bookingDate).format("YYYY-MM-DD")) && checkOutdate?.isAfter(dayjs(books.bookingEnd).format("YYYY-MM-DD"))) || 
-                    (checkInDate?.isAfter(dayjs(books.bookingDate).format("YYYY-MM-DD")) && checkInDate?.isBefore(dayjs(books.bookingEnd).format("YYYY-MM-DD")))){
+        getBookings(token).then((bookingJson) => {
+            setInitialData(bookingJson.data);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (session && initialData) {
+            const filtered = initialData.filter((item:BookingItem) => item.room._id === roomid);
+            setBookingData(filtered);
+            for(const books of initialData) {
+                if (books.hotel._id === hid) {
+                    const bookingStart = dayjs(books.bookingDate).format("YYYY-MM-DD");
+                    const bookingEnd = dayjs(books.bookingEnd).format("YYYY-MM-DD");
+                    if (checkInDate?.isSameOrBefore(bookingEnd) && checkOutdate?.isSameOrAfter(bookingStart)){
                         roomBooked.add(books.room.roomNo);
                     }
-                    if (checkOutdate?.isSame(dayjs(books.bookingDate).format("YYYY-MM-DD")) && checkOutdate?.isSame(dayjs(books.bookingEnd).format("YYYY-MM-DD")) || (checkOutdate?.isAfter(dayjs(books.bookingEnd).format("YYYY-MM-DD")) && checkOutdate?.isBefore(dayjs(books.bookingEnd).format("YYYY-MM-DD")))){
-                        roomBooked.add(books.room.roomNo);
-                    }
-                    
                 }
-                const availableRoom = allRoom.filter((room) => !roomBooked.has(room.roomNo));
-                find(availableRoom);
-                console.log(roomid);
-                console.log(typeof(bookingJson.data));
-            })
-        }
+            }
+            const availableRoom = allRoom.filter((room) => !roomBooked.has(room.roomNo));
+            find(availableRoom);
+            }
     }, [roomid,checkInDate,checkOutdate])
 
     const CheckRoom = async (checkIn: Dayjs, checkOut: Dayjs) => {
@@ -87,7 +97,6 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
     
         const bookings = bookingData;
         setBookingData(bookings);
-        console.log(bookings);
         const bookingsWithSameRoomId: BookingItem[] = [];
         let booking: BookingItem;
         for (booking of bookings) {
@@ -100,11 +109,7 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
             const bookingCheckIn = dayjs(booking.bookingDate);
             const bookingCheckOut = dayjs(booking.bookingEnd);
     
-            if (
-                (checkIn.isSameOrAfter(bookingCheckIn) && checkIn.isBefore(bookingCheckOut)) ||
-                (checkOut.isAfter(bookingCheckIn) && checkOut.isSameOrBefore(bookingCheckOut)) ||
-                (checkIn.isBefore(bookingCheckIn) && checkOut.isAfter(bookingCheckOut))
-            ) {
+            if (isDateOverlap(checkIn, checkOut, bookingCheckIn, bookingCheckOut)) {
                 toast.warning("Booking overlaps with existing booking");
                 console.log("Booking overlaps with existing booking:", booking);
                 return true;
@@ -129,6 +134,7 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
         }
 
         if(await CheckRoom(checkInDate, checkOutdate)){
+            console.log("Room is not available");
             setIsBooked(true);
         }
     };
@@ -157,7 +163,7 @@ export default function CheckAvailableRoom({hid, roomid,find,allRoom,setRoom} : 
               </button>
             </div>
             <div className="p-4 text-black">
-            {(isBooked || (!checkInDate && !checkOutdate) || checkInDate?.isBefore(checkOutdate)) ? <div>
+            {(isBooked || (!checkInDate && !checkOutdate) || checkInDate?.isSameOrAfter(checkOutdate)) ? <div>
                 <p>Booking time is not available, Please choose new booking time</p>
                 <div className="mt-4 flex justify-end">
                 <button onClick={() => {togglePopup(); window.location.reload() }} className="bg-blue-500 hover:bg-blue-700 text-white m-auto font-bold py-2 px-4 rounded hover:scale-105 transition duration-500 ease-in-out">

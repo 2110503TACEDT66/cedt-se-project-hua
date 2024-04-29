@@ -9,7 +9,7 @@ export default function HotelCatalog({hotelJson, search}:{hotelJson:HotelJson | 
     // use for filtering hotels
     const [filteredHotels, setFilteredHotels] = useState<HotelItem[]>([]);
 
-    const [data, setData] = useState<HotelJson>();
+    const [data, setData] = useState<HotelJson | null>(null);
     const [searchHotel, setSearchHotel] = useState<String>("");
     const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,6 @@ export default function HotelCatalog({hotelJson, search}:{hotelJson:HotelJson | 
       setData(data);
       setFilteredHotels(data?.data ?? []);
       setLoading(false);
-
     }
     fetchData();
   }, [hotelJson]);
