@@ -21,9 +21,7 @@ export default function myBookingPage() {
             })
         }
     }, [])
-
-
-
+    
     return (
         <main className=" bg-cover bg-center bg-no-repeat h-screen">
             <BookingList profile={profile}/>
