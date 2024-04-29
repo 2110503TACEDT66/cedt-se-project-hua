@@ -100,3 +100,9 @@ interface UserPayload {
     role: string,
     hid?: string
 }
+
+interface RoomPayload {
+    roomNo: string;
+    roomType: string;
+    price: string;
+}

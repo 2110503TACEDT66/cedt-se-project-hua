@@ -1,17 +1,17 @@
-'use client'
 import Image from "next/image"
 
 import Rating from "@mui/material/Rating" 
-import { Children, useState } from "react"
-
-
 
 export default function Card({hotelName,imgSrc,hotelBooking}:{hotelName:string,imgSrc:string,hotelBooking: BookingItem[]}){
     let sum = 0;
+    let count = 0;
     for (const booking of hotelBooking) {
-        sum += booking.rating;
+        if (typeof(booking.rating) === 'number'){
+            sum += booking.rating;
+            count++;
+        }
     }
-    const value = sum / hotelBooking.length;
+    const value = sum / count;
     
     return (
         <div className="w-full h-72 rounded-lg shadow-lg bg-white hover:scale-105 transition ease-in-out duration-100">

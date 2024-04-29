@@ -1,11 +1,18 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import ButtonForPath from "@/components/ButtonForPath";
 import RoomCatalog from "@/components/RoomCatalog";
 import getHotel from "@/libs/getHotel";
-import getRoomForHotel from "@/libs/getRoom";
-import Image from "next/image";
+import getUserProfile from "@/libs/getUserProfile";
+import { getServerSession } from "next-auth";
 
 export default async function HotelDetailPage({params}:{params:{hid:string}}){
+    const session = await getServerSession(authOptions)
+    let profile;
+    if (session) {
+        profile = await getUserProfile(session.user.token)
+    }
     const hotelDetail = await getHotel(params.hid)
-    const roomDetail = await getRoomForHotel(params.hid)
+    const roomDetail = hotelDetail.data.rooms
 
     return(
         <main className="bg-cover bg-center bg-no-repeat">
@@ -20,10 +27,14 @@ export default async function HotelDetailPage({params}:{params:{hid:string}}){
                         <p className=""> Address : {hotelDetail.data.address}</p>
                         <p className=""> Tel : {hotelDetail.data.tel}</p>
                     </div>
+                    {profile.data.role === 'hotelAdmin' && profile.data.hid._id === params.hid &&
+                    <div className="flex justify-end items-end">
+                        <ButtonForPath text="Add Room" path={`/hotel/${params.hid}/addroom`} />
+                    </div> }
                 </div>
             </div>
             <div className="flex flex-row">
-                <RoomCatalog roomJson={roomDetail} hid={params.hid} />
+                <RoomCatalog roomItem={roomDetail} hid={params.hid} profile={profile.data}/>
             </div>
         </main>
     )

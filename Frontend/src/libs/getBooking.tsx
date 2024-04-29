@@ -1,5 +1,5 @@
-export default async function getBookings(token: string) {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/bookings`, {
+export default async function getBookings(token: string, sortBy?: string) {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/bookings/?sort=${sortBy}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

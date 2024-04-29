@@ -40,32 +40,6 @@
 
 /**
 * @swagger
-* /auth/logout:
-*   get:
-*     summary: User logout
-*     tags:
-*       - Authentication
-*     security:
-*       - bearerAuth: []
-*     responses:
-*       200:
-*         description:
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 success:
-*                   type: boolean
-*                   example: true
-*                 data:
-*                   type: object
-*       401:
-*         description: Unauthorized
-*/
-
-/**
-* @swagger
 * /auth/register:
 *   post:
 *     summary: User registration
