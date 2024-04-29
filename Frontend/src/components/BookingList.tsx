@@ -6,8 +6,7 @@ import dayjs from 'dayjs'
 import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { Rating,Stack } from "@mui/material"
-import { useEffect, useState } from "react"
-import getUserProfile from "@/libs/getUserProfile"
+import { useState } from "react"
 
 export default function BookingList({profile} :{profile:any}) {
     const { data: session } = useSession();
@@ -17,7 +16,6 @@ export default function BookingList({profile} :{profile:any}) {
     const dispatch = useDispatch<AppDispatch>();
 
     const [editState, setEditState] = useState('not')
-    //const [profile, setProfile] = useState('')
     
     return (
         <div className="pt-1">
@@ -42,7 +40,7 @@ export default function BookingList({profile} :{profile:any}) {
                             onClick={() => setEditState(bookingItem._id)}>Edit</button>
                         </div>
                         {
-                            (profile.data.role === 'user') ? 
+                            (profile.data && (profile.data.role === 'user')) ? 
                             <Stack spacing={2} className=''>
                                 <Rating
                                     id={`${bookingItem.hotel.name} Rating`}

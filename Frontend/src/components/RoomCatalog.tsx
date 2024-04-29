@@ -2,12 +2,14 @@
 import { useState } from "react";
 import RoomCard from "./RoomCard";
 import CheckAvailableRoom from "./CheckAvailableRoom";
+import { useSession } from "next-auth/react";
+import deleteRoom from "@/libs/deleteRoom";
+import { toast } from "react-toastify";
 
-export default function RoomCatalog({roomJson,hid}:{roomJson:RoomJson,hid:string}){
-    const roomJsonReady = roomJson
-    const [roomId, setRoomId] = useState('' as string);
-    const [roomData, setRoomData] = useState('' as string);   
-    const [roomNumber, setRoomNumber] = useState('' as string);   
+export default function RoomCatalog({roomItem,hid, profile}:{roomItem:RoomItem[],hid:string,profile: {role:string, hid:{id:string}}}){
+    const [roomId, setRoomId] = useState('' as string); 
+    const [roomNumber, setRoomNumber] = useState('' as string);
+    const { data: session } = useSession();
     const findRoom = (room:[]) => {
         setAvailableRoom(room);
     }
@@ -15,8 +17,20 @@ export default function RoomCatalog({roomJson,hid}:{roomJson:RoomJson,hid:string
         setRoomId(id);
         setRoomNumber(number);
     }
+
+    const handleDelete = async (rid:string) => {
+        if (window.confirm(`Are you sure you want to delete this room?`) && session) {
+            deleteRoom(session.user.token, rid).then(() => {
+                toast.success("Room deleted successfully");
+                setAvailableRoom(availableRoom.filter((room) => room._id !== rid));
+            }).catch((error) => {
+                toast.error("Failed to delete room");
+                console.log(error);
+            })
+        }
+    }
     
-    const sortedData = roomJsonReady.data.sort((a, b) => a.roomNo.localeCompare(b.roomNo));
+    const sortedData = roomItem.sort((a, b) => a.roomNo.localeCompare(b.roomNo));
     const [availableRoom, setAvailableRoom] = useState(sortedData);
     return (
         <div  className="flex justify-around content-around  w-full pl-10 h-[550px]">
@@ -35,7 +49,7 @@ export default function RoomCatalog({roomJson,hid}:{roomJson:RoomJson,hid:string
             {
                 availableRoom.sort().map((RoomItem:RoomItem)=>(
                     <div className="w-4/5 py-5 flex flex-col relative" key={RoomItem._id}> 
-                    <RoomCard RoomItem={RoomItem} setRoom={forRoomId} />
+                    <RoomCard RoomItem={RoomItem} setRoom={forRoomId} removeRoom={handleDelete} profile={profile}/>
                     </div>
                 ))
             }

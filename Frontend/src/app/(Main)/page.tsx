@@ -2,15 +2,18 @@
 import Banner from '@/components/Banner'
 import HotelCatalog from '@/components/HotelCatalog'
 import getHotels from '@/libs/getHotels'
-import { Suspense } from 'react'
-import LinearProgress from '@mui/material/LinearProgress'
+import { useEffect } from 'react'
 import { useState, useRef } from 'react'
 
-const hotel = getHotels()
-
 export default function Home() {
+  const [hotels, setHotels] = useState(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    getHotels().then((data) => setHotels(data));
+  }, []);
+  
   // handle search function
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,9 +49,7 @@ export default function Home() {
     </div>
 
         </form>
-        <Suspense fallback = {<h3 className="text-red-400">Loading...<LinearProgress /></h3>}>
-            <HotelCatalog hotelJson={hotel} search={search}/>
-        </Suspense>
+          <HotelCatalog hotelJson={hotels} search={search}/>
       </div>
     </main>
   )

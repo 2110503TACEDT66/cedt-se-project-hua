@@ -5,9 +5,10 @@ import Link from "next/link";
 import { Bars, TailSpin } from 'react-loading-icons'
 
 
-export default function HotelCatalog({hotelJson, search}:{hotelJson:Promise<HotelJson>, search:String}){
+export default function HotelCatalog({hotelJson, search}:{hotelJson:HotelJson | null, search:String}){
     // use for filtering hotels
     const [filteredHotels, setFilteredHotels] = useState<HotelItem[]>([]);
+
     const [data, setData] = useState<HotelJson>();
     const [searchHotel, setSearchHotel] = useState<String>("");
     const [loading, setLoading] = useState(true);
