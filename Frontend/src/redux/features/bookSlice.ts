@@ -16,7 +16,6 @@ export const fetchBooking = createAsyncThunk("booking/fetch", async ({token, sor
 });
 
 export const deleteBookingfromDB = createAsyncThunk("booking/remove", async ({token, bid}: {token:string | undefined, bid:string}, thunkAPI) => {
-    console.log(token)
     if (token) {
         const data = await deleteBooking(token, bid)
         toast.success("Booking deleted successfully");

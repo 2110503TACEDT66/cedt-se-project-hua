@@ -5,9 +5,7 @@ import { AppDispatch } from "@/redux/store";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Rating, Stack } from '@mui/material';
 import getUserProfile from "@/libs/getUserProfile";
-import { set } from "mongoose";
 import { TailSpin } from "react-loading-icons";
 import { RiSortAsc, RiSortDesc } from "react-icons/ri";
 
@@ -35,10 +33,6 @@ export default function myBookingPage() {
                 setLoading(false);
             }
         }
-<<<<<<< HEAD
-    }, [])
-    
-=======
         fetchUserData();
         console.log('Change SortBy')
     }, [sortBy, isAsc])
@@ -60,7 +54,6 @@ export default function myBookingPage() {
     }
 
 
->>>>>>> b8e3d1fefe29486b7607b99c37cee32099ba4bf0
     return (
         <main className="h-screen p-5">
             <div className="text-5xl text-center text-black font-bold p-6">My Booking</div>
