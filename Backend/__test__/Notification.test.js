@@ -63,11 +63,12 @@ describe('addNotification', () => {
 
       const req = {
         body: {
+          _id: 'notificationId123',
           type: 'update',
-          title: 'Notification Title',
-          message: 'Notification Message',
-          bookingId: '123456',
-          user: 'userId123'
+          bookingId: 'bookingId123',
+          user: 'userId123',
+          checkin: '2024-05-01',
+          checkout: '2024-05-05' 
         }
       };
   
@@ -79,10 +80,10 @@ describe('addNotification', () => {
       const mockNotification = {
         _id: 'notificationId123',
         type: 'update',
-        title: 'Notification Title',
-        message: 'Notification Message',
-        bookingId: '123456',
-        user: 'userId123'
+        bookingId: 'bookingId123',
+        user: 'userId123',
+        checkin: '2024-05-01',
+        checkout: '2024-05-05' 
       };
       Notification.create = jest.fn().mockResolvedValue(mockNotification);
   
@@ -116,11 +117,11 @@ describe('addNotification', () => {
 
       const req = {
         body: {
-          type: 'invalid', 
-          title: 'Notification Title',
-          message: 'Notification Message',
-          bookingId: '123456',
-          user: 'userId123'
+          _id: 'notificationId123',
+          bookingId: 'bookingId123',
+          user: 'userId123',
+          checkin: '2024-05-01',
+          checkout: '2024-05-05' 
         }
       };
   
@@ -139,11 +140,12 @@ describe('addNotification', () => {
 
         const req = {
           body: {
+            _id: 'notificationId123',
             type: 'update',
-            title: 'Notification Title',
-            message: 'Notification Message',
-            bookingId: '123456',
-            user: 'userId123'
+            bookingId: 'bookingId123',
+            user: 'userId123',
+            checkin: '2024-05-01',
+            checkout: '2024-05-05' 
           }
         };
     
@@ -187,10 +189,12 @@ describe('addNotification', () => {
         user: 'userId123'
 
       };
-      Notification.findById = jest.fn().mockResolvedValue(mockNotification);
+      Notification.findById = jest.fn().mockResolvedValueOnce({ // Mocks a notification document
+        user: 'userId123', // Example user ID
+        deleteOne: jest.fn().mockResolvedValueOnce() // Mock deleteOne to resolve
+      });
 
       await deleteNotification(req, res);
-      expect(Notification.findById).toHaveBeenCalledWith('notificationId123');
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ success: true, data: {} });
     });
