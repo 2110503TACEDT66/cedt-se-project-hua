@@ -63,7 +63,7 @@ export default function BookingList({profile} :{profile:any}) {
                         
                         {
                            editState === bookingItem._id && <EditBooking closeEdit={() => setEditState('not')} bid={bookingItem._id} 
-                           hotel={bookingItem.hotel.name} room={bookingItem.room.roomNo} baseBookingDate={dayjs(bookingItem.bookingDate)} baseBookingEnd={dayjs(bookingItem.bookingEnd)}/>
+                           hotel={bookingItem.hotel.name} room={bookingItem.room.roomNo} uid ={bookingItem.user._id} baseBookingDate={dayjs(bookingItem.bookingDate)} baseBookingEnd={dayjs(bookingItem.bookingEnd)}/>
                         }
                     </div>
                 )) : <div className="text-2xl text-red-500 text-center">No Hotel has been booked</div>

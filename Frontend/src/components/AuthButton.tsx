@@ -3,6 +3,8 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import Link from "next/link";
 import TopMenuItem from "./TopMenuItem";
+import { HiBell } from "react-icons/hi";
+
 
 export default function AuthButton() {
     const { data: session } = useSession();
@@ -12,7 +14,11 @@ export default function AuthButton() {
             <div className="absolute flex flex-row-reverse right-5">
                 <button className="block rounded-xl bg-purple-400 hover:bg-purple-700 px-3 py-2 text-white shadow-sm mx-2" onClick={() => signOut()}>Log-Out</button>
                 <TopMenuItem title="Profile" pageRef="/profile" />
+                <Link href="notificationPage">
+                    <HiBell size={36} className="text-gray-400 hover:text-yellow-400"/>
+                </Link>
             </div>
+           
         )
     }
 
