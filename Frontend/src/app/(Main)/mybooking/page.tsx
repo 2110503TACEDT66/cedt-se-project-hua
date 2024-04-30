@@ -5,9 +5,7 @@ import { AppDispatch } from "@/redux/store";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Rating, Stack } from '@mui/material';
 import getUserProfile from "@/libs/getUserProfile";
-import { set } from "mongoose";
 import { TailSpin } from "react-loading-icons";
 import { RiSortAsc, RiSortDesc } from "react-icons/ri";
 

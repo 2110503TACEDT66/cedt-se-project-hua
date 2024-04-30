@@ -11,10 +11,8 @@ export default function DateReserve({onDateChange, value, name, mindate,unavaila
     const isWeekend = (date: Dayjs) => {
         let compareDate = dayjs("2024-04-18T17:00:00.000+00:00").format("YYYY-MM-DD");
         const day = date;
-        console.log(unavailableDate);
         if(unavailableDate === undefined) return day.isSame(compareDate);
         for(const booking of unavailableDate) {
-            console.log(booking);
             if (day.isSame(dayjs(booking.bookingDate).format("YYYY-MM-DD")) || day.isSame(dayjs(booking.bookingEnd).format("YYYY-MM-DD"))) {
                 return true;
             }

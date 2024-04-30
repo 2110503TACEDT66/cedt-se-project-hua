@@ -8,7 +8,7 @@ import { Bars, TailSpin } from 'react-loading-icons'
 export default function HotelCatalog({hotelJson, search}:{hotelJson:HotelJson | null, search:String}){
     // use for filtering hotels
     const [filteredHotels, setFilteredHotels] = useState<HotelItem[]>([]);
-    const [data, setData] = useState<HotelJson | null>();
+    const [data, setData] = useState<HotelJson | null | null>(null);
     const [searchHotel, setSearchHotel] = useState<String>("");
     const [loading, setLoading] = useState(true);
 
@@ -19,7 +19,6 @@ export default function HotelCatalog({hotelJson, search}:{hotelJson:HotelJson | 
       setData(data);
       setFilteredHotels(data?.data ?? []);
       setLoading(false);
-
     }
     fetchData();
   }, [hotelJson]);

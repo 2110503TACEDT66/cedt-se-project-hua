@@ -48,7 +48,7 @@ exports.deleteNotification = async(req,res,next)=>{
             return res.status(401).json({success:false,message:"Not authorized to delete Notification"});
         }
 
-        await notification.deleteOne();
+        //await notification.deleteOne();
 
         res.status(200).json({success:true,data:{}});
     }catch(error){
