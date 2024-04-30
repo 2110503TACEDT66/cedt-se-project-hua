@@ -112,12 +112,12 @@ export default function EditRoom({ closeEdit, rid, roomNo, roomType, price, hid 
   return (
     <div className="fixed z-30 left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40" 
         onClick={(e) => closeEdit()}>
-      <div className="bg-white rounded-lg p-8 w-[25em] text-black flex flex-col" onClick={(e) => e.stopPropagation()}>
-        <div className="text-xl text-blue-700 ml-[30%]">Edit room: {roomNo}</div>
+      <div className="bg-white rounded-lg p-4 w-[25em] text-black flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="text-2xl text-blue-700 ml-[30%] font-extrabold">Edit room: {roomNo}</div>
         <InputCompo name="roomNo" text="Room Number" type="text" handleChange={handleChange} error={errors.roomNo} initial={form.roomNo}/>
-        <div className="flex justify-center items-center my-7 flex-col">
+        <div className="flex justify-center items-center my-3 flex-col">
           <select onChange={handleSelectChange}
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[80%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+               className='bg-gray-50 border-2 border-gray-700 text-gray-700 text-sm rounded-2xl focus:ring-blue-500 focus:border-blue-500 block w-[80%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
               <option hidden>Select Room Type</option>
               <option key="Standard" value="Standard">Standard Room</option>
               <option key="Luxury" value="Luxury">Luxury Room</option>

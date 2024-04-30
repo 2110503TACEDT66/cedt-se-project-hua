@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import { useState } from "react";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineTrash,HiOutlinePencil } from "react-icons/hi";
 import EditRoom from "./EditRoom";
 
 export default function RoomCard({ RoomItem, setRoom, removeRoom, profile}: { RoomItem: RoomItem, setRoom: Function, removeRoom: Function, profile: { role: string, hid: { id: string} }}) {
@@ -25,11 +25,13 @@ export default function RoomCard({ RoomItem, setRoom, removeRoom, profile}: { Ro
                 <button onClick={() => { setRoom(RoomItem._id, RoomItem.roomNo) }} className="absolute bottom-2 right-2 rounded-xl py-2 px-3 text-white font-medium bg-purple-400 transition duration-100 hover:scale-105">Select</button>
                 {profile.role === 'hotelAdmin' && profile.hid.id == hotelString &&
                 <div>
-                    <button onClick={() => removeRoom(RoomItem._id)} className="text-red-400 absolute bottom-4 right-[6rem]">
+                    <button onClick={() => removeRoom(RoomItem._id)} id={'delete' + RoomItem.roomNo}className="text-black absolute bottom-4 right-[6rem] hover:text-red-400">
                         <HiOutlineTrash size={24} />
                     </button>
-                    <button className="block rounded-md transition ease-in-out duration-200 delay-75 bg-violet-950 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm mx-5"
-                    onClick={() => setEditState(RoomItem._id)}>Edit</button>
+                    <button className="text-black absolute bottom-4 right-[8rem] hover:text-blue-600" id={'edit' + RoomItem.roomNo}
+                    onClick={() => setEditState(RoomItem._id)}>
+                        <HiOutlinePencil size={24}/>
+                    </button>
                 </div>
                 }
             </div>

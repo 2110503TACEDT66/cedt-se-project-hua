@@ -13,10 +13,10 @@ exports.getNotification = async(req,res,next)=>{
 
 exports.addNotification = async(req,res,next)=>{
     try{
-        const { type, title, message,bookingId, user } = req.body;
+        const { type, bookingId , user , checkin, checkout, roomNo, hotel} = req.body;
 
         // Check if all required fields are present
-        if (!type || !title || !message || !user || !bookingId) {
+        if (!checkin || !checkout || !user || !bookingId) {
             return res.status(400).json({ success: false, message: "Missing required fields" });
         }
 
@@ -48,7 +48,7 @@ exports.deleteNotification = async(req,res,next)=>{
             return res.status(401).json({success:false,message:"Not authorized to delete Notification"});
         }
 
-        //await notification.deleteOne();
+        await notification.deleteOne();
 
         res.status(200).json({success:true,data:{}});
     }catch(error){

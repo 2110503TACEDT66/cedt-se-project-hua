@@ -111,11 +111,11 @@ export default function AddRoomPage() {
     }
     
     return (
-        <FormCompo header="Add Room" typeSubmit="Add Room" handleSubmit={handleSubmit}>
+        <FormCompo header="Add Room" typeSubmit="ADD ROOM" handleSubmit={handleSubmit}>
             <InputCompo name="roomNo" text="Room Number" type="text" handleChange={handleChange} error={errors.roomNo}/>
             <div className="flex justify-center items-center my-7 flex-col">
                 <select onChange={handleSelectChange}
-                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[80%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                    className='bg-gray-50 border-2 border-gray-700 text-gray-700 text-sm rounded-2xl focus:ring-blue-500 focus:border-blue-500 block w-[80%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                     <option hidden>Select Room Type</option>
                     <option key="Standard" value="Standard">Standard Room</option>
                     <option key="Luxury" value="Luxury">Luxury Room</option>

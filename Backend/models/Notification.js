@@ -6,11 +6,11 @@ const NotificationSchema=new mongoose.Schema({
         type:String,
         enum:['update','delete']
     },
-    title:{
+    checkin:{
         type:String,
         required:true
     },
-    message:{
+    checkout:{
         type:String,
         required:true
     },
@@ -22,6 +22,18 @@ const NotificationSchema=new mongoose.Schema({
     bookingId:{
         type:mongoose.Schema.ObjectId,
         required : true
+    },
+    roomNo:{
+        type:String
+    },
+    Hotel:{
+        type:String
+    },
+    editor:{
+       type:String
+    },
+    roomType:{
+        type:String
     },
     createAt:{
         type:Date,

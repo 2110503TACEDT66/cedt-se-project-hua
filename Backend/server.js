@@ -23,7 +23,6 @@ const auth = require('./routes/auth');
 const bookings = require('./routes/bookings');
 const rooms=require('./routes/rooms');
 const notifications=require('./routes/notifications');
-const { version } = require('mongoose');
 
 const app = express();
 // Body parser
@@ -44,7 +43,7 @@ app.use(xss());
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100
+    max: 400
 });
 
 app.use(limiter);
