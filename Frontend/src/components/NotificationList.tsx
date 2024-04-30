@@ -23,8 +23,7 @@ export default function notification({profile} :{profile:any}) {
                         <div className="text-md">Room Type: {bookingItem.room.roomType}</div>
                         <div className="text-md">Booking Date: {dayjs(bookingItem.bookingDate).format('D MMMM YYYY')}</div>
                         <div className="text-md">Booking Checkout: {dayjs(bookingItem.bookingEnd).format('D MMMM YYYY')}</div>
-                        <div className="text-md">//edit booking date and booking checkout by hotelAdmin Role//</div>    
-                    
+                        <div className="text-md">//edit booking date and booking checkout by hotelAdmin Role//</div>
                     </div>
                 )) : <div className="text-2xl text-red-500 text-center">No Notification</div>
             }

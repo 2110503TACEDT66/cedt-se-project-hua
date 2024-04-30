@@ -15,7 +15,7 @@ export default function notificationPage() {
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         if (session) {
-            dispatch(fetchBooking(session.user.token));
+            dispatch(fetchBooking({token:session?.user?.token}));
             getUserProfile(session?.user.token).then((data) => {
                 setProfile(data);
             })

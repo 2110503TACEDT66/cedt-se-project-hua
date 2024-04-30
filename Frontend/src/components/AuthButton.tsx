@@ -3,6 +3,7 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import Link from "next/link";
 import TopMenuItem from "./TopMenuItem";
+import { IoNotifications } from "react-icons/io5";
 
 export default function AuthButton() {
     const { data: session } = useSession();
@@ -12,6 +13,9 @@ export default function AuthButton() {
             <div className="absolute flex flex-row-reverse right-5">
                 <button className="block rounded-xl bg-purple-400 hover:bg-purple-700 px-3 py-2 text-white shadow-sm mx-2" onClick={() => signOut()}>Log-Out</button>
                 <TopMenuItem title="Profile" pageRef="/profile" />
+                <Link className="" href="/notificationPage">
+                    <IoNotifications />
+                </Link>
             </div>
         )
     }
