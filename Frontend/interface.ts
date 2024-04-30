@@ -38,7 +38,8 @@ interface BookingItem {
     bookingEnd: string,
     user: {
         _id: string,
-        name: string
+        name: string,
+        
     },
     hotel: {
         _id: string,
@@ -76,8 +77,8 @@ interface NotificationsData{
     type : string,
     Hotel : string,
     roomNo : string,
-    bookingDate :string,
-    bookingEnd  :string,
+    checkin :string,
+    checkout  :string,
     bookingId : string,
     userId    : string
 }

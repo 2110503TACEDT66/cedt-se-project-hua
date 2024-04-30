@@ -7,6 +7,8 @@ import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { Rating,Stack } from "@mui/material"
 import { useState } from "react"
+import addNotification from "@/libs/addNotification"
+import getUserProfile from "@/libs/getUserProfile"
 
 export default function BookingList({profile} :{profile:any}) {
     const { data: session } = useSession();
@@ -16,6 +18,8 @@ export default function BookingList({profile} :{profile:any}) {
     const dispatch = useDispatch<AppDispatch>();
 
     const [editState, setEditState] = useState('not')
+
+
     
     return (
         <div className="pt-1">
@@ -32,9 +36,20 @@ export default function BookingList({profile} :{profile:any}) {
                         </div>
                         <div className="flex flex-row">
                             <button className="block transition ease-in-out duration-200 delay-75 rounded-md bg-violet-950 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm"
-                            onClick={() => {
+                            onClick= { async() => {
                                 dispatch(deleteBookingfromDB({token:session?.user.token, bid:bookingItem._id}));
                                 dispatch(removeBookingLocal(bookingItem._id));
+                                const notificationBody:NotificationsData={
+                                    type        :'delete',
+                                    Hotel       : bookingItem.hotel.name,
+                                    roomNo      : bookingItem.room.roomNo,
+                                    checkin     : dayjs(bookingItem.bookingDate).format('D MMMM YYYY'),
+                                    checkout    : dayjs(bookingItem.bookingEnd).format('D MMMM YYYY'),
+                                    bookingId   : bookingItem._id,
+                                    userId      : bookingItem.user._id
+                                }
+                                if(profile.data.role ==="hotelAdmin" || profile.data.role ==="admin") await addNotification(session.user.token,notificationBody);
+                                console.log(profile.data.role)
                             }}>Remove from Booking List</button>
                             <button className="block rounded-md transition ease-in-out duration-200 delay-75 bg-violet-950 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm mx-5"
                             onClick={() => setEditState(bookingItem._id)}>Edit</button>
