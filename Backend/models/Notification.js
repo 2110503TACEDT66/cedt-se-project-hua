@@ -23,6 +23,18 @@ const NotificationSchema=new mongoose.Schema({
         type:mongoose.Schema.ObjectId,
         required : true
     },
+    roomNo:{
+        type:String
+    },
+    Hotel:{
+        type:String
+    },
+    editor:{
+       type:String
+    },
+    roomType:{
+        type:String
+    },
     createAt:{
         type:Date,
         default:Date.now

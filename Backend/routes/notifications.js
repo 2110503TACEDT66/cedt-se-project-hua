@@ -53,7 +53,7 @@ const{protect,authorize}=require('../middleware/auth');
 router.route('/')
     .get(protect,authorize('admin','user','hotelAdmin'),getNotification)
     .post(protect,authorize('admin','user','hotelAdmin'),addNotification);
-router.route('/:id').delete(protect,authorize('admin','user'),deleteNotification);
+router.route('/:id').delete(protect,authorize('admin','user','hotelAdmin'),deleteNotification);
     
 //router.route('/:id').post(protect,authorize('admin'), addNotifacation);
 
