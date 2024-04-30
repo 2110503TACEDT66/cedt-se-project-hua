@@ -41,7 +41,6 @@ export default function BookingList({profile} :{profile:any}) {
                         </div>
                         {
                             (profile.data && (profile.data.role === 'user')) ? 
-                            <Stack spacing={2} className=''>
                                 <Rating
                                     id={`${bookingItem.hotel.name} Rating`}
                                     name={`${bookingItem.hotel.name} Rating`}
@@ -52,8 +51,7 @@ export default function BookingList({profile} :{profile:any}) {
                                             dispatch(updateBookingDB({token:session?.user.token, bid:bookingItem._id, ratingNum: rating}));
                                         }
                                     }
-                                />
-                            </Stack> :
+                                /> :
                                 <Stack spacing={2} className=''>
                                 <Rating
                                     id={`${bookingItem.hotel.name} Rating`}
