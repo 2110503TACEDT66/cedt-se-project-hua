@@ -82,3 +82,18 @@ describe('Hotel Admin Interact', () => {
     })
   })
 })
+
+describe('[US1-3] User see Notification', () => {
+  before(() => {
+    cy.visit('http://localhost:3000/')
+    cy.get('#loginBtn').click()
+    cy.get('input[id="input-email-for-credentials-provider"]').type('user1@gmail.com')
+    cy.get('input[id="input-password-for-credentials-provider"]').type('user123')
+    cy.contains('button', 'Sign in with Credentials').click()
+  })
+
+  it('should see notification', () => {
+    cy.get('a[href="notificationPage"]').click()
+    cy.get('div.pt-1').children().should('have.length.gt', 1)
+  })
+})
