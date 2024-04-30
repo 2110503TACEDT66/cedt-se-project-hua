@@ -9,6 +9,6 @@ export default function ButtonForPath({text,path} : {text: string, path: string}
         router.push(path)
     }
     return (
-        <Button onClick={handleClick} variant="contained" color="secondary">{text}</Button>
+        <Button onClick={handleClick} variant="contained" color="secondary" className="text-black hover:text-white">{text}</Button>
     )
 }

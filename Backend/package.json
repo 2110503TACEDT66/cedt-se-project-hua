@@ -24,7 +24,7 @@
     "mongoose": "^8.2.0",
     "newman": "^6.1.1",
     "newman-reporter-htmlextra": "^1.23.0",
-    "swagger-jsdoc": "^6.0.0",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
