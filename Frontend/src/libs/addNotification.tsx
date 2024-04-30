@@ -2,17 +2,17 @@ export default async function addNotification(token:string, notificationData:Not
     const response = await fetch(`${process.env.BACKEND_URL}/api/v1/notifications`,{
         method : 'POST',
         headers :{ 
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         },
         body : JSON.stringify({
             type      : notificationData.type,
-            checkin   : notificationData.bookingDate,
-            checkout  : notificationData.bookingEnd,
-            roomNo    : notificationData.roomNo,
-            hotel     : notificationData.Hotel,
             bookingId : notificationData.bookingId,
-            user      : notificationData.userId
-
+            user      : notificationData.userId,
+            checkin   : notificationData.checkin,
+            checkout  : notificationData.checkout,
+            roomNo    : notificationData.roomNo,
+            Hotel     : notificationData.Hotel
         })
     });
     console.log(response)

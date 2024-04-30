@@ -25,10 +25,10 @@ export default function RoomCard({ RoomItem, setRoom, removeRoom, profile}: { Ro
                 <button onClick={() => { setRoom(RoomItem._id, RoomItem.roomNo) }} className="absolute bottom-2 right-2 rounded-xl py-2 px-3 text-white font-medium bg-purple-400 transition duration-100 hover:scale-105">Select</button>
                 {profile.role === 'hotelAdmin' && profile.hid.id == hotelString &&
                 <div>
-                    <button onClick={() => removeRoom(RoomItem._id)} className="text-black absolute bottom-4 right-[6rem] hover:text-red-400">
+                    <button onClick={() => removeRoom(RoomItem._id)} id={'delete' + RoomItem.roomNo}className="text-black absolute bottom-4 right-[6rem] hover:text-red-400">
                         <HiOutlineTrash size={24} />
                     </button>
-                    <button className="text-black absolute bottom-4 right-[8rem] hover:text-blue-600"
+                    <button className="text-black absolute bottom-4 right-[8rem] hover:text-blue-600" id={'edit' + RoomItem.roomNo}
                     onClick={() => setEditState(RoomItem._id)}>
                         <HiOutlinePencil size={24}/>
                     </button>
