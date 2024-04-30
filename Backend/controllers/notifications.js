@@ -13,7 +13,7 @@ exports.getNotification = async(req,res,next)=>{
 
 exports.addNotification = async(req,res,next)=>{
     try{
-        const { type, title, message,bookingId, user , roomNo ,Hotel } = req.body;
+        const { type, bookingId , user , checkin, checkout} = req.body;
 
         // Check if all required fields are present
         if (!type || !checkin || !checkout || !user || !bookingId) {

@@ -6,9 +6,10 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { updateBookingDB, updateBookingLocal } from "@/redux/features/bookSlice";
 import { useSession } from "next-auth/react";
+import addNotification from "@/libs/addNotification";
 
-export default function EditBooking({closeEdit, bid, hotel, room, baseBookingDate, baseBookingEnd} : 
-    {closeEdit: Function, bid: string, hotel: string, room: string, baseBookingDate: Dayjs, baseBookingEnd: Dayjs}) {
+export default function EditBooking({closeEdit, bid, hotel, room, uid, baseBookingDate, baseBookingEnd} : 
+    {closeEdit: Function, bid: string, hotel: string, room: string, uid: string, baseBookingDate: Dayjs, baseBookingEnd: Dayjs}) {
     const { data : session } = useSession();
 
     const [bookingDate, setBookingDate] = useState<Dayjs>(baseBookingDate)
@@ -16,10 +17,21 @@ export default function EditBooking({closeEdit, bid, hotel, room, baseBookingDat
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const handleSubmit = () => {
+    const notificationBody:NotificationsData={
+        type        : 'update',
+        Hotel       : hotel,
+        roomNo      : room,
+        bookingDate : bookingDate.toString(),
+        bookingEnd  : checkoutDate.toString(),
+        bookingId   : bid,
+        userId      : uid
+    }
+
+    const handleSubmit = async() => {
         if (bookingDate && checkoutDate && session?.user.token) {
             dispatch(updateBookingDB({token: session.user.token, bid: bid, bDate:bookingDate.toString(), bEnd:checkoutDate.toString()}))
             dispatch(updateBookingLocal({bid, bDate: bookingDate.toString(), bEnd: checkoutDate.toString()}));
+            await addNotification(session.user.token,notificationBody);
             closeEdit()
         }
     }
