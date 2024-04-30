@@ -14,7 +14,7 @@ export default function Card({hotelName,imgSrc,hotelBooking}:{hotelName:string,i
     const value = sum / count;
     
     return (
-        <div className="w-full h-72 rounded-lg shadow-lg bg-white hover:scale-105 transition ease-in-out duration-100">
+        <div className="w-full h-72 rounded-lg shadow-lg bg-white hover:scale-[103%] transition ease-in-out duration-100 hover:-translate-y-2">
             <div className='w-full h-[70%] relative rounded-t-lg'>
                 <Image src={imgSrc}
                 alt='Hotel Picture'
