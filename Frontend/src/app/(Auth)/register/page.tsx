@@ -94,7 +94,12 @@ export default function RegisterPage() {
 
     return (
         <div className="flex justify-center items-center bg-cover bg-center bg-no-repeat">
-        <form className="bg-purple-400/30 backdrop-blur-sm rounded-lg my-5 px-3 py-5 w-[50%] text-center h-[60%]">
+        <form className="bg-purple-400/30 backdrop-blur-sm rounded-lg my-5 px-3 py-5 w-[50%] text-center h-[60%] border-4 border-black">
+        <div> 
+                        <Link href="/" className="text-black p-2 font-4xl items-center " >
+                            <IoMdArrowRoundBack size={36}/> 
+                        </Link>
+        </div>
             <div className="text-5xl text-center text-black font-bold p-6">Register</div>
             <InputCompo type="text" name="name" text="Name" handleChange={handleChange} error={errors.name}/>
             <InputCompo type="text" name="tel" text="Telephone Number" handleChange={handleChange} error={errors.tel}/>
@@ -102,18 +107,15 @@ export default function RegisterPage() {
             <InputCompo type="password" name="password" text="Password" handleChange={handleChange} error={errors.password}/>
             <div className="flex justify-center items-center my-7 flex-col">
                 <input type="password" required id="confirmPassword" name="confirmPassword" placeholder="Please Confirm Password" onChange={(e) => handleChange(e)}
-                className="bg-gray-700  border-2 border-gray-400 rounded-full w-4/5 p-2 text-white focus:outline-none focus:border-blue-400 placeholder-gray-100" />
+                className="bg-gray-50  border-2 border-gray-700 rounded-2xl w-4/5 p-2 text-black focus:outline-none focus:border-blue-400 placeholder-gray-500" />
                 {errors.confirmPassword && <span className="text-red-500 text-sm">{errors.confirmPassword}</span>}
             </div>
             <div className="flex flex-col gap-4 items-center">
-                <button onClick={handleSubmit} className="bg-black hover:scale-105 transition duration-100 
-                text-white p-2 font-medium rounded-full px-5 text-xl">
+                <button onClick={handleSubmit} className="bg-black hover:scale-105 transition duration-100 w-4/5 
+                        text-white p-2 font-medium rounded-2xl px-5 text-xl flex items-center justify-center gap-1 my-4">
                     Register
                 </button>
-                <Link href="/" className="bg-black hover:scale-105 transition duration-100 
-                text-white p-2 font-medium rounded-full px-5 text-xl flex items-center gap-1" >
-                    <IoMdArrowRoundBack/> Back
-                </Link>
+                
             </div>
         </form>
         </div>
