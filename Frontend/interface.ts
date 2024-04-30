@@ -30,6 +30,8 @@ interface RoomItem {
     __v: string
 }
 
+
+
 interface BookingItem {
     _id: string,
     bookingDate: string,
@@ -53,6 +55,20 @@ interface BookingItem {
     rating: number,
     createdAt: string,
     __v: string
+}
+interface Notifications {
+    _id:      string;
+    type:     string;
+    title:    string;
+    message:  string;
+    bookingId: string;
+    bookings:  BookingItem;
+    user:     string;
+    roomNo:   string;
+    roomType: string;
+    editor:   string;
+    Hotel:    string;
+    createAt: string;
 }
     
 interface HotelJson {
