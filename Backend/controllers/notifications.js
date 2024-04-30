@@ -16,7 +16,7 @@ exports.addNotification = async(req,res,next)=>{
         const { type, title, message,bookingId, user , roomNo ,Hotel } = req.body;
 
         // Check if all required fields are present
-        if (!type || !title || !message || !user || !bookingId) {
+        if (!type || !checkin || !checkout || !user || !bookingId) {
             return res.status(400).json({ success: false, message: "Missing required fields" });
         }
 

@@ -6,11 +6,11 @@ const NotificationSchema=new mongoose.Schema({
         type:String,
         enum:['update','delete']
     },
-    title:{
+    checkin:{
         type:String,
         required:true
     },
-    message:{
+    checkout:{
         type:String,
         required:true
     },
