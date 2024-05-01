@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import ButtonForPath from "@/components/ButtonForPath";
 import RoomCatalog from "@/components/RoomCatalog";
 import getHotel from "@/libs/getHotel";
