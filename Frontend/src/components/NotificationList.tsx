@@ -24,7 +24,7 @@ export default function notification({notifications} :{notifications:Notificatio
                         <div className="text-md">//edit booking date and booking checkout by hotelAdmin Role//</div>
                     </div>
                 )) : 
-                <h1 className="text-2xl shadow-lg p-5 shadow-red-400/50 rounded-lg font-medium text-red-400 text-center">No Hotels Found</h1>
+                <h1 className="text-2xl shadow-lg p-5 shadow-red-400/50 rounded-lg font-medium text-red-400 text-center">No Notification Found</h1>
 
             }
         </div>

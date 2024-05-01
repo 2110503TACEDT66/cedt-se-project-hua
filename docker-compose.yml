@@ -1,0 +1,20 @@
+# pls create your own .env file in the root directory of the project
+# as this template is just a reference
+# 
+# and change your frontend and backend post as your preference
+
+services:
+  backend:
+    build: ./Backend
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./Backend/config/config.env
+
+
+  frontend:
+    build: ./Frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Frontend/.env.local
